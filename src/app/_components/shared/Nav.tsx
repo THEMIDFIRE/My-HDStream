@@ -1,9 +1,10 @@
 "use client"
+import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { BellIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const links: { href: string; label: string }[] = [
     { href: "/", label: "Home" },
@@ -19,6 +20,7 @@ const others: { icon: any; label: string }[] = [
 
 export default function Nav() {
     const path = usePathname();
+    const router = useRouter();
     return (
         <>
             <NavigationMenu className="max-w-full justify-between items-center py-6 px-16">
@@ -34,7 +36,10 @@ export default function Nav() {
                     {links.map((link) => (
                         <NavigationMenuItem key={link.href}>
                             <NavigationMenuLink asChild>
-                                <Link href={link.href} className={`rounded-[8px] text-lg px-6 py-3.5 font-normal ${path === link.href ? "bg-gray-100/5 font-medium " : ""}`}>{link.label}</Link>
+                                <Button onClick={() => router.push(link.href)} className={`text-black rounded-[8px] text-lg px-6 py-3.5 font-normal bg-transparent ${path === link.href ? "bg-gray-200/60 dark:bg-gray-100/5 dark:font-medium " : ""}`}>
+                                    {link.label}
+                                </Button>
+                                {/* <Link href={link.href} className={`rounded-[8px] text-lg px-6 py-3.5 font-normal ${path === link.href ? "bg-gray-100/5 font-medium " : ""}`}>{link.label}</Link> */}
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                     ))}
