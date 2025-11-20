@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { BellIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 const links: { href: string; label: string }[] = [
@@ -14,8 +13,8 @@ const links: { href: string; label: string }[] = [
 ]
 
 const others: { icon: any; label: string }[] = [
-    { icon: <MagnifyingGlassIcon />, label: "Search" },
-    { icon: <BellIcon />, label: "Notifications" }
+    { icon: <MagnifyingGlassIcon className="size-6 dark:text-white" />, label: "Search" },
+    { icon: <BellIcon className="size-6 dark:text-white" />, label: "Notifications" }
 ]
 
 export default function Nav() {
@@ -32,23 +31,24 @@ export default function Nav() {
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                 </NavigationMenuList>
-                <NavigationMenuList className="border-2 rounded-md p-2.5">
+                <NavigationMenuList className="border-4 rounded-md p-2.5 gap-7">
                     {links.map((link) => (
                         <NavigationMenuItem key={link.href}>
                             <NavigationMenuLink asChild>
-                                <Button onClick={() => router.push(link.href)} className={`text-black rounded-[8px] text-lg px-6 py-3.5 font-normal bg-transparent ${path === link.href ? "bg-gray-200/60 dark:bg-gray-100/5 dark:font-medium " : ""}`}>
+                                <Button onClick={() => router.push(link.href)} className={`text-black dark:text-white rounded-[8px] text-lg px-6 py-3.5 font-normal bg-transparent ${path === link.href ? "bg-gray-200/60 dark:bg-gray-200/10 dark:font-medium px-6" : ""}`}>
                                     {link.label}
                                 </Button>
-                                {/* <Link href={link.href} className={`rounded-[8px] text-lg px-6 py-3.5 font-normal ${path === link.href ? "bg-gray-100/5 font-medium " : ""}`}>{link.label}</Link> */}
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                     ))}
                 </NavigationMenuList>
                 <NavigationMenuList>
-                    {others.map((other) => (
-                        <NavigationMenuItem key={other.label}>
-                            <NavigationMenuLink href={other.icon}>
-                                {other.icon}
+                    {others.map((other, index) => (
+                        <NavigationMenuItem key={index}>
+                            <NavigationMenuLink asChild>
+                                <Button className={`text-black dark:text-white rounded-[8px] text-lg px-6 py-3.5 font-normal bg-transparent`}>
+                                    {other.icon}
+                                </Button>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                     ))}
