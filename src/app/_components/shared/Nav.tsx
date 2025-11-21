@@ -22,16 +22,16 @@ export default function Nav() {
     const router = useRouter();
     return (
         <>
-            <NavigationMenu className="max-w-full justify-between items-center py-6 px-16">
+            <NavigationMenu className="fixed top-0 z-50 inset-x-0 max-w-11/12 mx-auto justify-between items-center py-6">
                 <NavigationMenuList>
                     <NavigationMenuItem>
-                        <NavigationMenuLink href="/" className="flex flex-row items-center gap-1 text-xl font-bold">
+                        <NavigationMenuLink href="/" className="flex flex-row items-center gap-1 text-xl font-bold hover:bg-transparent">
                             <Image src="/logo.svg" alt="Abstract Design" width={60} height={60} />
                             My HDStream
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                 </NavigationMenuList>
-                <NavigationMenuList className="border-4 rounded-md p-2.5 gap-7">
+                <NavigationMenuList className="border-4 rounded-md p-2.5 gap-7 bg-black">
                     {links.map((link) => (
                         <NavigationMenuItem key={link.href}>
                             <NavigationMenuLink asChild>
