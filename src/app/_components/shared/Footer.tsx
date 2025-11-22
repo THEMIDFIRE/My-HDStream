@@ -50,17 +50,17 @@ export default function Footer() {
                         <h4 className="mb-6">Connect with us</h4>
                         <ul className="flex gap-3.5">
                             <li className="border aspect-square rounded-md">
-                                <Button className="text-white h-full bg-slate-100/5 rounded-md">
+                                <Button className="text-white h-full bg-slate-100/5 rounded-md hover:bg-slate-100/10">
                                     <Facebook className="size-6" />
                                 </Button>
                             </li>
                             <li className="border aspect-square rounded-md">
-                                <Button className="text-white h-full bg-slate-100/5 rounded-md">
+                                <Button className="text-white h-full bg-slate-100/5 rounded-md hover:bg-slate-100/10">
                                     <Twitter className="size-6" />
                                 </Button>
                             </li>
                             <li className="border aspect-square rounded-md">
-                                <Button className="text-white h-full bg-slate-100/5 rounded-md">
+                                <Button className="text-white h-full bg-slate-100/5 rounded-md hover:bg-slate-100/10">
                                     <Linkedin className="size-6" />
                                 </Button>
                             </li>
