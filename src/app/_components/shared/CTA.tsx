@@ -7,7 +7,7 @@ export default function CTA() {
     <section>
       <div className="container max-w-4/5 mx-auto relative border rounded-lg overflow-hidden">
         <div className="bg-[url('/CTA-bg.png')] bg-cover bg-center bg-no-repeat">
-          <div className="bg-linear-to-r from-black from-20% to-red-600/50 to-80% flex justify-between items-center px-20 py-24">
+          <div className="bg-linear-to-r from-black to-red-600/50 from-20% via-20% to-80% flex justify-between items-center px-20 py-24">
             <div className="space-y-3.5">
               <h3 className="text-5xl font-bold">Start your free trial today!</h3>
               <p className="text-lg text-gray-400">This is a clear and concise call to action that encourages users to sign up for a free trial of StreamVibe.</p>
