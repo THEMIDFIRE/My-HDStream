@@ -4,7 +4,7 @@ import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 export default function Footer() {
     return (
         <footer>
-            <div className="container md:max-w-4/5 mx-auto pt-24 pb-12">
+            <div className="container max-w-11/12 md:max-w-4/5 mx-auto pt-24 pb-12">
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-7 mb-24">
                     <div>
                         <h4 className="mb-6">Home</h4>
@@ -67,7 +67,7 @@ export default function Footer() {
                         </ul>
                     </div>
                 </div>
-                <div className="flex justify-between border-t pt-6">
+                <div className="text-sm text-gray-400/80 flex flex-col md:flex-row justify-between space-y-5 border-t pt-6">
                     <p>@2025 My HDStream, All Rights Reserved</p>
                     <div className="flex gap-4">
                         <p>Terms of Use</p>
