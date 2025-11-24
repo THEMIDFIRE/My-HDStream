@@ -23,8 +23,8 @@ export default function RootLayout({
         <Nav />
         <main>
           {children}
+          <CTA />
         </main>
-        <CTA />
         <Footer />
       </body>
     </html>

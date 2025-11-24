@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 
 export default function CTA() {
   return (
-    <section>
+    <section className="mb-20 md:mb-28 2xl:mb-32">
       <div className="container max-w-11/12 lg:max-w-4/5 mx-auto relative border shadow rounded-lg overflow-hidden">
         <div className="bg-[url('/CTA-bg-mobile.png')] md:bg-[url('/CTA-bg.png')] bg-cover bg-center bg-no-repeat">
           <div className="bg-linear-to-b md:bg-linear-to-r from-black to-red-600/50 from-0% via-60% to-90% md:from-20% md:via-20% md:to-80% flex flex-col md:flex-row justify-between items-center max-md:px-7 max-md:py-12 lg:px-20 lg:py-24 max-md:space-y-12">
