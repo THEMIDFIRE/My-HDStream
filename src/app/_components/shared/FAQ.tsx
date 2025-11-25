@@ -1,43 +1,40 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button";
 
-const items: {
-    title: string;
-    content: string;
-}[] = [
-        {
-            title: "What is MY HDStream?",
-            content: "My HDStream is a streaming service that allows you to watch movies and shows on demand.",
-        },
-        {
-            title: "How much does MY HDStream cost?",
-            content: "MY HDStream is a subscription-based service that costs $9.99 per month.",
-        },
-        {
-            title: "What content is available on MY HDStream?",
-            content: "MY HDStream offers a wide range of movies and TV shows, including popular and exclusive content.",
-        },
-        {
-            title: "How can I watch MY HDStream?",
-            content: "You can watch MY HDStream on any device with an internet connection.",
-        },
-        {
-            title: "How do I sign up for MY HDStream?",
-            content: "You can sign up for MY HDStream by creating an account on our website.",
-        },
-        {
-            title: "What is the MY HDStream free trial?",
-            content: "MY HDStream offers a 7-day free trial for new subscribers.",
-        },
-        {
-            title: "How do I contact MY HDStream customer support?",
-            content: "You can contact MY HDStream customer support at support@myhdstream.com.",
-        },
-        {
-            title: "What are the MY HDStream payment methods?",
-            content: "MY HDStream accepts credit cards, debit cards, and PayPal.",
-        }
-    ]
+const items: { title: string; content: string; }[] = [
+    {
+        title: "What is MY HDStream?",
+        content: "My HDStream is a streaming service that allows you to watch movies and shows on demand.",
+    },
+    {
+        title: "How much does MY HDStream cost?",
+        content: "MY HDStream is a subscription-based service that costs $9.99 per month.",
+    },
+    {
+        title: "What content is available on MY HDStream?",
+        content: "MY HDStream offers a wide range of movies and TV shows, including popular and exclusive content.",
+    },
+    {
+        title: "How can I watch MY HDStream?",
+        content: "You can watch MY HDStream on any device with an internet connection.",
+    },
+    {
+        title: "How do I sign up for MY HDStream?",
+        content: "You can sign up for MY HDStream by creating an account on our website.",
+    },
+    {
+        title: "What is the MY HDStream free trial?",
+        content: "MY HDStream offers a 7-day free trial for new subscribers.",
+    },
+    {
+        title: "How do I contact MY HDStream customer support?",
+        content: "You can contact MY HDStream customer support at support@myhdstream.com.",
+    },
+    {
+        title: "What are the MY HDStream payment methods?",
+        content: "MY HDStream accepts credit cards, debit cards, and PayPal.",
+    }
+]
 
 export default function FAQ() {
     return (

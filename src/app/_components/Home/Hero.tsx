@@ -9,7 +9,7 @@ export default function Hero() {
     <header className="min-h-screen mb-96 max-w-full w-full">
       <div className="container relative bg-center h-screen max-w-full w-full">
         <div className="absolute max-w-screen w-full">
-          <div className="h-screen bg-[url('/hero-bg-mobile.png')] md:bg-[url('/hero-bg.png')] bg-no-repeat bg-cover bg-center"></div>
+          <div className="h-screen bg-[url('/hero-bg-mobile.png')] md:bg-[url('/hero-bg.png')] bg-no-repeat bg-cover md:bg-cover bg-center"></div>
           <div className="overlay absolute top-0 left-0 w-full h-2/3 bg-linear-to-b from-black/90 to-transparent"></div>
           <HeroLogo className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50%] lg:w-[70%]" />
           <div className="overlay absolute bottom-0 left-0 w-full h-2/3 bg-linear-to-t from-black/90 to-transparent"></div>
