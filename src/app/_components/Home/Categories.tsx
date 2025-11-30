@@ -5,6 +5,87 @@ import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/componen
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
 
+const genres: {
+    id: number,
+    name: string
+}[] = [
+        {
+            "id": 28,
+            "name": "Action"
+        },
+        {
+            "id": 12,
+            "name": "Adventure"
+        },
+        {
+            "id": 16,
+            "name": "Animation"
+        },
+        {
+            "id": 35,
+            "name": "Comedy"
+        },
+        {
+            "id": 80,
+            "name": "Crime"
+        },
+        {
+            "id": 99,
+            "name": "Documentary"
+        },
+        {
+            "id": 18,
+            "name": "Drama"
+        },
+        {
+            "id": 10751,
+            "name": "Family"
+        },
+        {
+            "id": 14,
+            "name": "Fantasy"
+        },
+        {
+            "id": 36,
+            "name": "History"
+        },
+        {
+            "id": 27,
+            "name": "Horror"
+        },
+        {
+            "id": 10402,
+            "name": "Music"
+        },
+        {
+            "id": 9648,
+            "name": "Mystery"
+        },
+        {
+            "id": 10749,
+            "name": "Romance"
+        },
+        {
+            "id": 878,
+            "name": "Science Fiction"
+        },
+        {
+            "id": 10770,
+            "name": "TV Movie"
+        },
+        {
+            "id": 53,
+            "name": "Thriller"
+        },
+        {
+            "id": 10752,
+            "name": "War"
+        },
+        {
+            "id": 37,
+            "name": "Western"
+        }
+    ]
 export default function Categories() {
     const [api, setApi] = useState<CarouselApi>()
     const [current, setCurrent] = useState(0)
@@ -50,19 +131,19 @@ export default function Categories() {
                     </div>
                 </div>
                 <div>
-                    <Carousel setApi={setApi} opts={{ align: "start",slidesToScroll: "auto" }} className="max-md:flex max-md:flex-col max-md:items-center gap-6">
+                    <Carousel setApi={setApi} opts={{ align: "start", slidesToScroll: "auto" }} className="max-md:space-y-5">
                         <CarouselContent>
-                            {Array.from({length: 10}).map((_,index) => (
-                                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
+                            {genres.map((genre, index) => (
+                                <CarouselItem key={index} className="basis-1/2 lg:basis-1/4 text-center">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>{index + 1}</CardTitle>
+                                            <CardTitle>{genre.name}</CardTitle>
                                         </CardHeader>
                                     </Card>
                                 </CarouselItem>
                             ))}
                         </CarouselContent>
-                        <div className="flex gap-2 md:hidden">
+                        <div className="flex justify-center gap-2 md:hidden">
                             {Array.from({ length: count }).map((_, index) => (
                                 <button
                                     key={index}
