@@ -27,7 +27,7 @@ export default function Nav() {
     const router = useRouter();
     return (
         <>
-            <NavigationMenu className="w-full z-50 max-w-full fixed top-0 backdrop-blur-xs">
+            <NavigationMenu className="w-full z-50 max-w-full sticky top-0 backdrop-blur-xs">
                 <div className="container flex justify-between items-center max-w-11/12 md:max-w-4/5 mx-auto py-6">
                     <Link href="/" className="flex flex-row items-center gap-1 text-md xl:text-xl font-bold hover:bg-transparent">
                         <img src="/logo.svg" alt="My HDStream" className="size-1/4" />

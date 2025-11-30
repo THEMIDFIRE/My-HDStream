@@ -20,7 +20,7 @@ const devices: { icon: any, title: string, description: string }[] = [
 ]
 export default function Devices() {
     return (
-        <section className="mb-20">
+        <section className="mb-20 md:mb-28 2xl:mb-32">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto space-y-10">
                 <div className="space-y-2.5">
                     <h2 className="text-xl md:text-2xl 2xl:text-4xl font-bold">We Provide you streaming experience across various devices.</h2>

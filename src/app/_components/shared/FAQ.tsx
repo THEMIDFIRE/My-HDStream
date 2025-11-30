@@ -38,7 +38,7 @@ const items: { title: string; content: string; }[] = [
 
 export default function FAQ() {
     return (
-        <section className="my-28">
+        <section className="mb-20 md:mb-28 2xl:mb-32">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-start gap-y-8 md:items-center mb-14">
                     <div className="space-y-2.5">
