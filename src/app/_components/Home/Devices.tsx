@@ -21,9 +21,9 @@ const devices: { icon: any, title: string, description: string }[] = [
 export default function Devices() {
     return (
         <section className="mb-20 md:mb-28 2xl:mb-32">
-            <div className="container max-w-11/12 md:max-w-4/5 mx-auto space-y-10">
-                <div className="space-y-2.5">
-                    <h2 className="text-xl md:text-2xl 2xl:text-4xl font-bold">We Provide you streaming experience across various devices.</h2>
+            <div className="container max-w-11/12 md:max-w-4/5 mx-auto space-y-10 md:space-y-[60px] 2xl:space-y-20">
+                <div className="space-y-2 md:space-y-2.5 2xl:space-y-3.5">
+                    <h2 className="text-[28px] md:text-4xl 2xl:text-5xl font-bold">We Provide you streaming experience across various devices.</h2>
                     <p className="text-sm md:text-base 2xl:text-lg font-normal text-gray-500 md:hidden">With MY HDStream, you can enjoy your favorite movies and TV shows anytime, anywhere.</p>
                     <p className="text-sm md:text-base 2xl:text-lg font-normal text-gray-500 max-md:hidden">With MY HDStream, you can enjoy your favorite movies and TV shows anytime, anywhere. Our platform is designed to be compatible with a wide range of devices, ensuring that you never miss a moment of entertainment.</p>
                 </div>

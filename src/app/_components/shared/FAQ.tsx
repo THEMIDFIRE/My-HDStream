@@ -1,5 +1,7 @@
+"use client"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const items: { title: string; content: string; }[] = [
     {
@@ -37,15 +39,17 @@ const items: { title: string; content: string; }[] = [
 ]
 
 export default function FAQ() {
+        const router = useRouter();
+    
     return (
         <section className="mb-20 md:mb-28 2xl:mb-32">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-start gap-y-8 md:items-center mb-14">
-                    <div className="space-y-2.5">
-                        <h2 className="text-2xl 2xl:text-4xl font-bold">Frequently Asked Questions</h2>
+                    <div className="space-y-2 md:space-y-2.5 2xl:space-y-3.5">
+                        <h2 className="text-[28px] md:text-4xl 2xl:text-5xl font-bold">Frequently Asked Questions</h2>
                         <p className="text-gray-200/60 text-sm md:text-base 2xl:text-lg">Got questions? We've got answers! Check out our FAQ section to find answers to the most common questions about MY HDStream.</p>
                     </div>
-                    <Button className="bg-red-500 text-white font-semibold rounded px-6 py-5">Contact Us</Button>
+                    <Button className="bg-red-500 text-white font-semibold rounded px-6 py-5" onClick={() => router.push('/Support')}>Contact Us</Button>
                 </div>
                 <Accordion
                     type="single"

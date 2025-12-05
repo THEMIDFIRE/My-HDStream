@@ -108,14 +108,14 @@ export default function Categories() {
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto space-y-10 md:space-y-14 2xl:space-y-20">
                 <div className="flex justify-between items-center">
                     <div className="space-y-2 md:space-y-2.5 2xl:space-y-3.5">
-                        <h2 className="text-2xl md:text-3xl 2xl:text-5xl font-bold">Explore our wide variety of categories</h2>
+                        <h2 className="text-[28px] md:text-4xl 2xl:text-5xl font-bold">Explore our wide variety of categories</h2>
                         <p className="text-sm md:text-base 2xl:text-lg font-normal text-gray-500">Whether you're looking for a comedy to make you laugh, a drama to make you think, or a documentary to learn something new</p>
                     </div>
                     <div className="hidden md:flex items-center justify-center h-fit gap-3 p-3 bg-black rounded-lg border">
                         <Button variant="outline" size="icon" onClick={() => api?.scrollPrev()} className="p-2.5">
                             <ArrowLeftIcon />
                         </Button>
-                        <div className="flex gap-2 ">
+                        <div className="flex gap-2">
                             {Array.from({ length: count }).map((_, index) => (
                                 <button
                                     key={index}

@@ -10,6 +10,22 @@ const manrope = Manrope({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "My HDStream | Free Movies & TV Shows Online",
   description: "My HDStream is a free streaming platform that provides access to a vast library of movies and TV shows.",
+  keywords: "streaming, movies, TV shows, free, HD, entertainment, online",
+  authors: [{ name: "Mohamed Magdy | chaoticoder" }],
+  creator: "Mohamed Magdy | chaoticoder",
+  publisher: "Mohamed Magdy | chaoticoder",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://my-hd-stream.vercel.app/",
+    title: "My HDStream | Free Movies & TV Shows Online",
+    description: "My HDStream is a free streaming platform that provides access to a vast library of movies and TV shows.",
+    siteName: "My HDStream",
+  },
 };
 
 export default function RootLayout({

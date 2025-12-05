@@ -56,14 +56,14 @@ export default function Pricing() {
         <section className="mb-20 md:mb-28 2xl:mb-32">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-start gap-y-5 md:items-center mb-14">
-                    <div className="space-y-2.5">
-                        <h2 className="text-2xl md:text-3xl 2xl:text-4xl font-bold">Choose the plan that's right for you</h2>
+                    <div className="space-y-2 md:space-y-2.5 2xl:space-y-3.5">
+                        <h2 className="text-[28px] md:text-4xl 2xl:text-5xl font-bold">Choose the plan that's right for you</h2>
                         <p className="text-gray-200/60 text-sm md:text-base 2xl:text-lg">Join My HDStream and select from our flexible subscription options tailored to suit your viewing preferences. Get ready for non-stop entertainment!</p>
                     </div>
-                    <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="">
+                    <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab}>
                         <TabsList className="h-auto p-2 2xl:p-2.5 bg-black border *:border-none">
-                            <TabsTrigger className="py-3 px-5 2xl:py-3.5 2xl:px-6 text-sm 2xl:text-lg font-medium" value="monthly" onClick={() => setActiveTab("monthly")}>Monthly</TabsTrigger>
-                            <TabsTrigger className="py-3 px-5 2xl:py-3.5 2xl:px-6 text-sm 2xl:text-lg font-medium" value="yearly" onClick={() => setActiveTab("yearly")}>Yearly</TabsTrigger>
+                            <TabsTrigger className="py-3 px-5 2xl:py-3.5 2xl:px-6 text-sm 2xl:text-lg font-medium dark:data-[state=active]:bg-gray-400/20" value="monthly" onClick={() => setActiveTab("monthly")}>Monthly</TabsTrigger>
+                            <TabsTrigger className="py-3 px-5 2xl:py-3.5 2xl:px-6 text-sm 2xl:text-lg font-medium dark:data-[state=active]:bg-gray-400/20" value="yearly" onClick={() => setActiveTab("yearly")}>Yearly</TabsTrigger>
                         </TabsList>
                     </Tabs>
                 </div>
