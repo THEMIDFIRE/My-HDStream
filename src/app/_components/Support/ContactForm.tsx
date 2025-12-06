@@ -71,12 +71,13 @@ export default function ContactForm() {
                                         control={form.control}
                                         render={({ field, fieldState }) => (
                                             <Field data-invalid={fieldState.invalid}>
-                                                <FieldLabel htmlFor="form-rhf-demo-title">
+                                                <FieldLabel htmlFor="firstName">
                                                     First Name
                                                 </FieldLabel>
                                                 <Input
                                                     {...field}
                                                     aria-invalid={fieldState.invalid}
+                                                    id="firstName"
                                                     placeholder="Enter your first name"
                                                     autoComplete="off"
                                                 />
@@ -90,12 +91,13 @@ export default function ContactForm() {
                                         control={form.control}
                                         render={({ field, fieldState }) => (
                                             <Field data-invalid={fieldState.invalid}>
-                                                <FieldLabel htmlFor="form-rhf-demo-title">
+                                                <FieldLabel htmlFor="lastName">
                                                     Last Name
                                                 </FieldLabel>
                                                 <Input
                                                     {...field}
                                                     aria-invalid={fieldState.invalid}
+                                                    id="lastName"
                                                     placeholder="Enter your last name"
                                                     autoComplete="off"
                                                 />
@@ -111,12 +113,13 @@ export default function ContactForm() {
                                         control={form.control}
                                         render={({ field, fieldState }) => (
                                             <Field data-invalid={fieldState.invalid}>
-                                                <FieldLabel htmlFor="form-rhf-demo-title">
+                                                <FieldLabel htmlFor="email">
                                                     Email
                                                 </FieldLabel>
                                                 <Input
                                                     {...field}
                                                     aria-invalid={fieldState.invalid}
+                                                    id="email"
                                                     placeholder="Enter your email"
                                                     autoComplete="off"
                                                 />
@@ -130,10 +133,10 @@ export default function ContactForm() {
                                         control={form.control}
                                         render={({ field, fieldState }) => (
                                             <Field data-invalid={fieldState.invalid}>
-                                                <FieldLabel htmlFor="form-rhf-demo-title">
+                                                <FieldLabel htmlFor="phoneNumber">
                                                     Phone Number
                                                 </FieldLabel>
-                                                <PhoneInput placeholder="Enter phone number" {...field} />
+                                                <PhoneInput id="phoneNumber" placeholder="Enter phone number" {...field} />
                                                 {fieldState.invalid && (
                                                     <FieldError errors={[fieldState.error]} />
                                                 )}
@@ -145,12 +148,13 @@ export default function ContactForm() {
                                     control={form.control}
                                     render={({ field, fieldState }) => (
                                         <Field data-invalid={fieldState.invalid}>
-                                            <FieldLabel htmlFor="form-rhf-demo-description">
+                                            <FieldLabel htmlFor="message">
                                                 Message
                                             </FieldLabel>
                                             <InputGroup>
                                                 <InputGroupTextarea
                                                     {...field}
+                                                    id="message"
                                                     placeholder="Enter your message."
                                                     rows={6}
                                                     className="min-h-24 resize-none"
@@ -168,8 +172,8 @@ export default function ContactForm() {
                                         </Field>
                                     )}
                                 />
+                                <Button type="submit" className="text-sm font-semibold w-full md:w-fit bg-red-500 text-white py-6 px-7 rounded-md md:self-end">Send Message</Button>
                             </FieldGroup>
-                            <Button type="submit" className="text-sm font-semibold w-full md:w-fit bg-red-500 text-white py-6 px-7 rounded-md md:self-end">Send Message</Button>
                         </form>
                     </Form>
                 </div>
