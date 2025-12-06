@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from '@/components/ui/carousel';
 import { ArrowLeftIcon, ArrowRightIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Autoplay from "embla-carousel-autoplay"
+import Image from 'next/image';
 
 
 interface TrendingProps {
