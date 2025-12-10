@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
-import ShowsGenresCard from "../../Cards/ShowsGenresCard";
+import { ShowsGenresCard } from "../../Cards/Cards";
 
 export default function Genres({ genres }: any) {
     const [api, setApi] = useState<CarouselApi>();

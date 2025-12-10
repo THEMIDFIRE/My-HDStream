@@ -1,5 +1,5 @@
 import { Laptop, Smartphone, Tablet, Tv2 } from "lucide-react"
-import DeviceCard from "../Cards/DeviceCard"
+import { DeviceCard } from "../Cards/Cards"
 
 const devices: { icon: any, title: string, description: string }[] = [
     {

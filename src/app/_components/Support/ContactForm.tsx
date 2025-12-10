@@ -1,17 +1,16 @@
 "use client"  // Add this line at the very top
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import Image from "next/image";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Controller, useForm } from "react-hook-form"
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
-import { Textarea } from "@/components/ui/textarea";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupText, InputGroupTextarea } from "@/components/ui/input-group";
-import { PhoneInput } from "./PhoneInput";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { Controller, useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { z } from "zod";
+import { PhoneInput } from "./PhoneInput";
 
 const schema = z.object({
     firstName: z.string().min(2, {

@@ -1,8 +1,8 @@
 "use client"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import PriceCard from "../Cards/PriceCard"
 import { useState } from "react"
+import { PriceCard } from "../Cards/Cards"
 
 const monthlyPrices: { title: string, description: string, price: number, currency: string, period: string }[] = [
     {

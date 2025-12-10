@@ -4,6 +4,7 @@ import "./globals.css";
 import Nav from "./_components/shared/Nav";
 import Footer from "./_components/shared/Footer";
 import CTA from "./_components/shared/CTA";
+import { QueryProvider } from "./providers/provider";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
@@ -36,12 +37,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${manrope.className} antialiased dark`}>
-        <Nav />
-        <main>
-          {children}
-          <CTA />
-        </main>
-        <Footer />
+        <QueryProvider>
+          <Nav />
+          <main>
+            {children}
+            <CTA />
+          </main>
+          <Footer />
+        </QueryProvider>
       </body>
     </html>
   );

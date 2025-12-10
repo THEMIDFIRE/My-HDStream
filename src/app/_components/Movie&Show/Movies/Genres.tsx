@@ -1,9 +1,9 @@
 "use client"
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel"
-import MovieGenresCard from "../../Cards/MovieGenresCard"
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
+import { MovieGenresCard } from "../../Cards/Cards";
 
 export default function Genres({ genres }: any) {
     const [api, setApi] = useState<CarouselApi>();

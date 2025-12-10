@@ -34,7 +34,7 @@ export default function Trending({ trending }: TrendingProps) {
     return (
         <section className="mb-20 md:mb-28 2xl:mb-32">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto">
-                <Carousel opts={{ loop: true }} plugins={[Autoplay({delay: 5000})]} setApi={setApi}>
+                <Carousel className='test' opts={{ loop: true }} plugins={[Autoplay({delay: 5000})]} setApi={setApi}>
                     <CarouselContent>
                         {movies.map((movie: any, index: number) => (
                             <CarouselItem key={movie.id} className='relative'>
