@@ -19,8 +19,6 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps) {
     const { id } = await params;
     const details = await getMovieDetails(parseInt(id));
-    console.log(details);
-    
     
     return {
         title: `${details.title || 'Movie'} | My HDStream`,
