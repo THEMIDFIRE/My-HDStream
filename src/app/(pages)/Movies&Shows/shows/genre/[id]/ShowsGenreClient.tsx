@@ -115,7 +115,7 @@ export default function ShowsGenreClient({
                     <>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 mb-10">
                             {shows.map((show: any) => (
-                                <Link href={`/Movies&Shows/Show/${show.id}`}>
+                                <Link href={`/Movies&Shows/tv/${show.id}`}>
                                     <MediaCard key={show.id} item={show} type="tv" />
                                 </Link>
                             ))}

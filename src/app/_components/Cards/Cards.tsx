@@ -114,7 +114,7 @@ export function MediaCard({ item, type }: MediaCardProps) {
                 <div className="relative aspect-2/3 overflow-hidden">
                     {item.poster_path ? (
                         <Image
-                            src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+                            src={`https://image.tmdb.org/t/p/original${item.poster_path}`}
                             alt={displayTitle}
                             fill
                             className="object-cover group-hover:scale-110 transition-transform duration-300"

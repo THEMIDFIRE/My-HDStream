@@ -1,16 +1,16 @@
-import { getMovieDetails } from '@/lib/api';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { 
-    ArrowLeftIcon, 
-    CalendarIcon, 
-    ClockIcon, 
-    StarIcon 
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { getShowDetails } from '@/lib/api';
+import {
+    ArrowLeftIcon,
+    CalendarIcon,
+    ClockIcon,
+    StarIcon
 } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface PageProps {
     params: Promise<{ id: string }>;
@@ -18,26 +18,25 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
     const { id } = await params;
-    const details = await getMovieDetails(parseInt(id));
-    console.log(details);
+    const details = await getShowDetails(parseInt(id));
     
-    
+
     return {
-        title: `${details.title || 'Movie'} | My HDStream`,
-        description: details.overview || 'Watch this movie on My HDStream',
+        title: `${details.name || 'Show'} | My HDStream`,
+        description: details.overview || 'Watch this Show on My HDStream',
         openGraph: {
-            title: details.title,
+            title: details.name,
             description: details.overview,
-            images: details.backdrop_path 
+            images: details.backdrop_path
                 ? [`https://image.tmdb.org/t/p/original${details.backdrop_path}`]
                 : [],
         },
     };
 }
 
-export default async function MovieDetails({ params }: PageProps) {
+export default async function ShowDetails({ params }: PageProps) {
     const { id } = await params;
-    const details = await getMovieDetails(parseInt(id));
+    const details = await getShowDetails(parseInt(id));
 
     // Helper functions
     const formatRuntime = (minutes: number) => {
@@ -72,17 +71,17 @@ export default async function MovieDetails({ params }: PageProps) {
                             src={`https://image.tmdb.org/t/p/original${details.backdrop_path}`}
                             fill
                             className="object-cover"
-                            alt={details.title || 'Movie backdrop'}
+                            alt={details.name || 'Show backdrop'}
                             priority
                             sizes="100vw"
                         />
                     ) : (
                         <div className="w-full h-full bg-gray-800" />
                     )}
-                    
+
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent" />
-                    
+
                     {/* Back Button */}
                     <div className="absolute top-4 left-4 md:top-8 md:left-8 z-10">
                         <Link href="/Movies&Shows">
@@ -106,7 +105,7 @@ export default async function MovieDetails({ params }: PageProps) {
                                             src={`https://image.tmdb.org/t/p/w500${details.poster_path}`}
                                             fill
                                             className="object-cover"
-                                            alt={details.title || 'Movie poster'}
+                                            alt={details.name || 'Show poster'}
                                             sizes="(max-width: 768px) 100vw, 320px"
                                         />
                                     </div>
@@ -123,9 +122,9 @@ export default async function MovieDetails({ params }: PageProps) {
                             {/* Title and Rating */}
                             <div>
                                 <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                                    {details.title}
+                                    {details.name}
                                 </h1>
-                                
+
                                 {details.tagline && (
                                     <p className="text-lg text-gray-400 italic mb-4">
                                         "{details.tagline}"
@@ -141,14 +140,14 @@ export default async function MovieDetails({ params }: PageProps) {
                                             <span className="text-gray-500">/ 10</span>
                                         </div>
                                     )}
-                                    
+
                                     {details.release_date && (
                                         <div className="flex items-center gap-1">
                                             <CalendarIcon className="w-5 h-5" />
                                             {formatDate(details.release_date)}
                                         </div>
                                     )}
-                                    
+
                                     {details.runtime && (
                                         <div className="flex items-center gap-1">
                                             <ClockIcon className="w-5 h-5" />
@@ -162,8 +161,8 @@ export default async function MovieDetails({ params }: PageProps) {
                             {details.genres && details.genres.length > 0 && (
                                 <div className="flex flex-wrap gap-2">
                                     {details.genres.map((genre: any) => (
-                                        <Badge 
-                                            key={genre.id} 
+                                        <Badge
+                                            key={genre.id}
                                             variant="secondary"
                                             className="bg-red-500/20 text-red-500 border-red-500/50"
                                         >
@@ -200,21 +199,21 @@ export default async function MovieDetails({ params }: PageProps) {
                                         <span className="ml-2 text-white">{details.status}</span>
                                     </div>
                                 )}
-                                
+
                                 {details.budget > 0 && (
                                     <div>
                                         <span className="text-gray-400">Budget:</span>
                                         <span className="ml-2 text-white">{formatCurrency(details.budget)}</span>
                                     </div>
                                 )}
-                                
+
                                 {details.revenue > 0 && (
                                     <div>
                                         <span className="text-gray-400">Revenue:</span>
                                         <span className="ml-2 text-white">{formatCurrency(details.revenue)}</span>
                                     </div>
                                 )}
-                                
+
                                 {details.original_language && (
                                     <div>
                                         <span className="text-gray-400">Original Language:</span>
