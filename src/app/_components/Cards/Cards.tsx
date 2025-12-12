@@ -1,6 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { usePrefetchDetails } from '@/hooks/useMovies';
 import { StarIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
@@ -20,39 +21,52 @@ export function DeviceCard({ icon, title, description }: { icon: any, title: str
     )
 }
 
-interface GenresCardProps {
+// Updated Cards.tsx - Replace the genre card components with this unified version
+
+interface GenreCardProps {
     genre: {
         id: number;
         name: string;
     };
+    type?: 'movie' | 'tv';
 }
 
-export function MovieGenresCard({ genre }: GenresCardProps) {
-    const { prefetchMoviesGenre } = usePrefetchDetails()
+export function GenreCard({ genre, type }: GenreCardProps) {
+    const { prefetchMoviesGenre, prefetchShowsGenre } = usePrefetchDetails();
+
+    const isMovie = type === 'movie';
+    const basePath = isMovie ? '/Movies&Shows/movies/genre' : '/Movies&Shows/shows/genre';
+
+    const handleMouseEnter = () => {
+        if (isMovie) {
+            prefetchMoviesGenre(genre.id);
+        } else {
+            prefetchShowsGenre(genre.id);
+        }
+    };
+
     return (
-        <Link href={`/Movies&Shows/movies/genre/${genre.id}`} className="block transition-transform hover:scale-105">
-            <Card className="cursor-pointer hover:border-red-500 transition-colors" onMouseEnter={() => prefetchMoviesGenre(genre.id)}>
+        <Link href={`${basePath}/${genre.id}`} className="block transition-transform hover:scale-105">
+            <Card
+                className="cursor-pointer hover:border-red-500 transition-colors"
+                onMouseEnter={handleMouseEnter}
+            >
                 <CardHeader>
-                    <CardTitle className="text-center">{genre.name}</CardTitle>
+                    <CardTitle className="text-center truncate">{genre.name}</CardTitle>
                 </CardHeader>
             </Card>
         </Link>
-    )
+    );
 }
 
-export function ShowsGenresCard({ genre }: GenresCardProps) {
-    const { prefetchShowsGenre } = usePrefetchDetails()
-    return (
-        <Link href={`/Movies&Shows/shows/genre/${genre.id}`} className="block transition-transform hover:scale-105">
-            <Card className="cursor-pointer hover:border-red-500 transition-colors" onMouseEnter={() => prefetchShowsGenre(genre.id)}>
-                <CardHeader>
-                    <CardTitle className="text-center">{genre.name}</CardTitle>
-                </CardHeader>
-            </Card>
-        </Link>
-    )
+// Convenience aliases for backward compatibility
+export function MovieGenresCard({ genre }: { genre: GenreCardProps['genre'] }) {
+    return <GenreCard genre={genre} type="movie" />;
 }
 
+export function ShowsGenresCard({ genre }: { genre: GenreCardProps['genre'] }) {
+    return <GenreCard genre={genre} type="tv" />;
+}
 export function PriceCard({ title, description, price, currency, period }: { title: string, description: string, price: number, currency: string, period: string }) {
     return (
         <Card className="min-w-[30%] 2xl:px-7 2xl:py-12 space-y-2 md:space-y-3 2xl:space-y-7">
@@ -88,14 +102,14 @@ interface MediaCardProps {
 
 export function MediaCard({ item, type }: MediaCardProps) {
     const { prefetchMovie, prefetchShow } = usePrefetchDetails();
-    
+
     const isMovie = type === 'movie' || item.media_type === 'movie' || !!item.title;
     const displayTitle = item.title || item.name || 'Unknown';
-    const releaseYear = item.release_date 
-        ? new Date(item.release_date).getFullYear() 
-        : item.first_air_date 
-        ? new Date(item.first_air_date).getFullYear() 
-        : 'N/A';
+    const releaseYear = item.release_date
+        ? new Date(item.release_date).getFullYear()
+        : item.first_air_date
+            ? new Date(item.first_air_date).getFullYear()
+            : 'N/A';
 
     const handleMouseEnter = () => {
         if (isMovie) {
@@ -132,9 +146,16 @@ export function MediaCard({ item, type }: MediaCardProps) {
                     )}
                 </div>
                 <div className="p-3">
-                    <h3 className="font-semibold text-sm md:text-base line-clamp-2 text-white">
-                        {displayTitle}
-                    </h3>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <h3 className="font-semibold text-sm md:text-base truncate line-clamp-2 text-white">
+                                {displayTitle}
+                            </h3>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>{displayTitle}</p>
+                        </TooltipContent>
+                    </Tooltip>
                     <p className="text-xs text-gray-400 mt-1">
                         {releaseYear}
                     </p>

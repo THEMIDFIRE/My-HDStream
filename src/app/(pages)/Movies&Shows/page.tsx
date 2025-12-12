@@ -1,21 +1,25 @@
 import Movies from '@/app/_components/Movie&Show/Movies/Movies'
 import Shows from '@/app/_components/Movie&Show/Shows/Shows'
 import Trending from '@/app/_components/Movie&Show/Trending'
-import { getMovieGenres, getShowsGenres, getTrending } from '@/lib/api'
+import { getMovieGenres, getPopularMovies, getPopularShows, getShowsGenres, getTopRatedMovies, getTopRatedShows, getTrending } from '@/lib/api'
 
 export default async function MoviesShowsPage() {
   // Fetch initial data server-side for SEO
-  const [trending, movieGenres, showsGenres] = await Promise.all([
+  const [trending, movieGenres, popularMovies, topRatedMovies, showsGenres, popularShows, topRatedShows] = await Promise.all([
     getTrending(),
     getMovieGenres(),
-    getShowsGenres()
+    getPopularMovies(),
+    getTopRatedMovies(),
+    getShowsGenres(),
+    getPopularShows(),
+    getTopRatedShows(),
   ])
 
   return (
     <>
       <Trending trending={trending} />
-      <Movies genres={movieGenres} />
-      <Shows genres={showsGenres} />
+      <Movies genres={movieGenres} popular={popularMovies} topRated={topRatedMovies} />
+      <Shows genres={showsGenres} popular={popularShows} topRated={topRatedShows} />
     </>
   )
 }

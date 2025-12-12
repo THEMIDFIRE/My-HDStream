@@ -1,6 +1,6 @@
 'use client'
 
-import { getMovieDetails, getMovieGenres, getMoviesByGenre, getShowDetails, getShowsByGenre, getShowsGenres, getTrending, searchMulti } from '@/lib/api'
+import { getMovieDetails, getMovieGenres, getMoviesByGenre, getPopularMovies, getPopularShows, getShowDetails, getShowsByGenre, getShowsGenres, getTopRatedMovies, getTopRatedShows, getTrending } from '@/lib/api'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 // Trending content
@@ -9,6 +9,36 @@ export function useTrending() {
         queryKey: ['trending'],
         queryFn: getTrending,
         staleTime: 5 * 60 * 1000, // 5 minutes
+    })
+}
+
+export function useTopRatedMovies() {
+    return useQuery({
+        queryKey: ['movies', 'toprated'],
+        queryFn: getTopRatedMovies,
+        staleTime: 10 * 60 * 1000, // 10 minutes
+    })
+}
+export function useTopRatedShows() {
+    return useQuery({
+        queryKey: ['shows', 'toprated'],
+        queryFn: getTopRatedShows,
+        staleTime: 10 * 60 * 1000, // 10 minutes
+    })
+}
+
+export function usePopularMovies() {
+    return useQuery({
+        queryKey: ['movies', 'popular'],
+        queryFn: getPopularMovies,
+        staleTime: 10 * 60 * 1000, // 10 minutes
+    })
+}
+export function usePopularShows() {
+    return useQuery({
+        queryKey: ['shows', 'popular'],
+        queryFn: getPopularShows,
+        staleTime: 10 * 60 * 1000, // 10 minutes
     })
 }
 
@@ -67,16 +97,6 @@ export function useShowDetails(showId: number) {
         queryFn: () => getShowDetails(showId),
         enabled: !!showId,
         staleTime: 30 * 60 * 1000,
-    })
-}
-
-// Search
-export function useSearch(query: string, page: number = 1) {
-    return useQuery({
-        queryKey: ['search', query, page],
-        queryFn: () => searchMulti(query, page),
-        enabled: query.length > 2, // Only search if query is 3+ characters
-        staleTime: 5 * 60 * 1000,
     })
 }
 

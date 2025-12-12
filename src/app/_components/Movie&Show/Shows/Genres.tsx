@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
-import { ShowsGenresCard } from "../../Cards/Cards";
+import { GenreCard } from "../../Cards/Cards";
 
 export default function Genres({ genres }: any) {
     const [api, setApi] = useState<CarouselApi>();
@@ -24,7 +24,7 @@ export default function Genres({ genres }: any) {
     return (
         <>
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl md:text-3xl font-bold text-white">Our Genres</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-white">Genres</h2>
                 <div className="hidden md:flex items-center justify-center h-fit gap-3 p-3 bg-black rounded-lg border">
                     <Button variant="outline" size="icon" onClick={() => api?.scrollPrev()} className="p-2.5">
                         <ArrowLeftIcon />
@@ -48,7 +48,7 @@ export default function Genres({ genres }: any) {
                 <CarouselContent className="-ml-2 md:-ml-4">
                     {genres.map((genre: any) => (
                         <CarouselItem key={genre.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
-                            <ShowsGenresCard genre={genre} />
+                            <GenreCard genre={genre} type="tv" />
                         </CarouselItem>
                     ))}
                 </CarouselContent>

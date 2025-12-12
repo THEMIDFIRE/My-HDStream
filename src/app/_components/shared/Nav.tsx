@@ -6,7 +6,7 @@ import { Sheet, SheetContent, SheetFooter, SheetTrigger } from "@/components/ui/
 import { BellIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Bars3BottomRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const links: { href: string; label: string }[] = [
     { href: "/", label: "Home" },
@@ -22,7 +22,7 @@ const others: { icon: any; label: string }[] = [
 
 export default function Nav() {
     const path = usePathname();
-    const router = useRouter();
+
     return (
         <>
             <NavigationMenu className="w-full z-50 max-w-full sticky top-0 backdrop-blur-xs">
@@ -36,9 +36,9 @@ export default function Nav() {
                         {links.map((link) => (
                             <NavigationMenuItem key={link.href}>
                                 <NavigationMenuLink asChild>
-                                    <Button onClick={() => router.push(link.href)} className={`text-gray-500 rounded-md text-sm xl:text-lg xl:px-8 xl:py-6 font-normal bg-transparent ${path === link.href ? "text-white bg-gray-200/60 dark:bg-gray-200/10 font-medium" : ""}`}>
+                                    <Link prefetch={true} href={link.href} className={`text-gray-500 rounded-md text-sm xl:text-lg xl:px-8 xl:py-6 font-normal bg-transparent ${path === link.href ? "text-white bg-gray-200/60 dark:bg-gray-200/10 font-medium" : ""}`}>
                                         {link.label}
-                                    </Button>
+                                    </Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                         ))}
@@ -48,7 +48,7 @@ export default function Nav() {
                         {others.map((other) => (
                             <NavigationMenuItem key={other.label}>
                                 <NavigationMenuLink asChild>
-                                    <Button className={`text-black dark:text-white rounded-[8px] text-lg px-6 py-3.5 font-normal bg-transparent`}>
+                                    <Button className={`text-black dark:text-white rounded-xl text-lg px-6 py-3.5 font-normal bg-transparent`}>
                                         {other.icon}
                                     </Button>
                                 </NavigationMenuLink>
@@ -62,9 +62,9 @@ export default function Nav() {
                         <SheetContent className="lg:hidden">
                             <div className="flex flex-col grow gap-6 justify-center items-center align-middle">
                                 {links.map((link, index) => (
-                                    <Button key={index} onClick={() => router.push(link.href)} className={`text-black dark:text-white rounded-[8px] text-lg px-6 py-3.5 font-normal bg-transparent hover:bg-gray-400/30 ${path === link.href ? "bg-gray-200/60 dark:bg-gray-200/10 dark:font-medium px-6" : ""}`}>
+                                    <Link prefetch={true} href={link.href} className={`text-black dark:text-white rounded-xl text-lg px-6 py-3.5 font-normal bg-transparent hover:bg-gray-400/30 ${path === link.href ? "bg-gray-200/60 dark:bg-gray-200/10 dark:font-medium px-6" : ""}`}>
                                         {link.label}
-                                    </Button>
+                                    </Link>
                                 ))}
                             </div>
                             <SheetFooter>
