@@ -1,9 +1,8 @@
-import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { Accordion } from '@/components/ui/accordion'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { getShowEpisodes } from '@/lib/api';
-import { ArrowDownIcon } from '@heroicons/react/24/solid'
+import { ClockIcon } from '@heroicons/react/24/outline';
+import { ArrowDownIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
-import { Card } from '@/components/ui/card';
 
 interface EpisodesProps {
     seasons: any[];
@@ -57,7 +56,7 @@ export default async function Episodes({ seasons, showId }: EpisodesProps) {
                         const totalCount = season.episode_count;
 
                         return (
-                            <AccordionItem value={`item-${index}`} className="bg-black p-5 rounded-md" key={season.id || index}>
+                            <AccordionItem value={`item-${index}`} defaultValue={"item-0"} className="bg-black p-5 rounded-md" key={season.id || index}>
                                 <AccordionTrigger className='hover:no-underline'>
                                     <div className='flex items-center gap-2'>
                                         <span className="text-lg md:text-xl 2xl:text-2xl">
@@ -69,59 +68,41 @@ export default async function Episodes({ seasons, showId }: EpisodesProps) {
                                     </div>
                                     <ArrowDownIcon className="text-gray-500 pointer-events-none size-4 translate-y-0.5 transition-transform duration-200" />
                                 </AccordionTrigger>
-                                <AccordionContent className="space-y-4 pt-4">
+                                <AccordionContent className="space-y-6 pt-4">
                                     <div className="space-y-3">
                                         {season.episodes.map((episode: any) => (
-                                            <Card key={episode.id} className="p-4 bg-transparent border shadow hover:bg-gray-900/50">
-                                                <div className="flex gap-4">
-                                                    {episode.still_path && (
-                                                        <div className="relative w-32 h-20 shrink-0 rounded overflow-hidden">
+                                            <div key={episode.id} className='border-t-2 pt-4'>
+                                                <div className='flex items-center gap-3 max-md:flex-col hover:bg-gray-900/70 px-4 py-5 rounded-md max-md:space-y-3'>
+                                                    <div className="flex w-full md:w-1/3 items-start md:items-center gap-2">
+                                                        <span className='text-gray-500 text-lg font-semibold max-md:order-1'>{episode.episode_number < 10 ? `0${episode.episode_number}` : episode.episode_number}</span>
+                                                        <div className="relative aspect-video w-full md:w-full">
                                                             <Image
                                                                 src={`https://image.tmdb.org/t/p/w300${episode.still_path}`}
                                                                 fill
-                                                                className="object-cover"
+                                                                className="object-cover rounded"
                                                                 alt={episode.name}
                                                                 sizes="128px"
                                                             />
                                                         </div>
-                                                    )}
-
-                                                    <div className="flex-1 space-y-1">
-                                                        <div className="flex items-start justify-between gap-2">
-                                                            <h5 className="font-semibold text-white">
-                                                                {episode.episode_number}. {episode.name}
-                                                            </h5>
-                                                            {episode.runtime && (
-                                                                <span className="text-sm text-gray-500 shrink-0">
-                                                                    {episode.runtime}m
-                                                                </span>
-                                                            )}
+                                                    </div>
+                                                    <div className='w-full space-y-3'>
+                                                        <div className="flex max-md:flex-col justify-between items-start md:items-center gap-3">
+                                                            <h5 className='max-md:order-1'>{episode.name}</h5>
+                                                            <div className='flex gap-1 items-center text-gray-500 border rounded px-1 bg-muted/50 shadow'>
+                                                                <ClockIcon className='size-3' />
+                                                                <span>{episode.runtime}m</span>
+                                                            </div>
                                                         </div>
-
-                                                        {episode.overview && (
-                                                            <p className="text-sm text-gray-400 line-clamp-2">
-                                                                {episode.overview}
-                                                            </p>
-                                                        )}
-
-                                                        {episode.air_date && (
-                                                            <p className="text-xs text-gray-500">
-                                                                Aired: {new Date(episode.air_date).toLocaleDateString('en-US', {
-                                                                    year: 'numeric',
-                                                                    month: 'short',
-                                                                    day: 'numeric'
-                                                                })}
-                                                            </p>
-                                                        )}
+                                                        <p className='text-gray-500 max-md:hidden'>{episode.overview}</p>
                                                     </div>
                                                 </div>
-                                            </Card>
+                                            </div>
                                         ))}
                                     </div>
 
                                     {airedCount < totalCount && (
-                                        <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-                                            <p className="text-sm text-blue-400 text-center">
+                                        <div className="mt-4 p-3 bg-gray-500/10 border border-blue-500/30 rounded-lg">
+                                            <p className="text-sm text-gray-400 text-center">
                                                 {totalCount - airedCount} episode{totalCount - airedCount > 1 ? 's' : ''} not yet aired
                                             </p>
                                         </div>
