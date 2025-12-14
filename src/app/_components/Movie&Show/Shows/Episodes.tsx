@@ -74,7 +74,7 @@ export default async function Episodes({ seasons, showId }: EpisodesProps) {
                                             <div key={episode.id} className='border-t-2 pt-4'>
                                                 <div className='flex items-center gap-3 max-md:flex-col hover:bg-gray-900/70 px-4 py-5 rounded-md max-md:space-y-3'>
                                                     <div className="flex w-full md:w-1/3 items-start md:items-center gap-2">
-                                                        <span className='text-gray-500 text-lg font-semibold max-md:order-1'>{episode.episode_number < 10 ? `0${episode.episode_number}` : episode.episode_number}</span>
+                                                        <span className='text-gray-500 text-lg font-semibold max-md:order-1 max-md:self-center'>{episode.episode_number < 10 ? `0${episode.episode_number}` : episode.episode_number}</span>
                                                         <div className="relative aspect-video w-full md:w-full">
                                                             <Image
                                                                 src={`https://image.tmdb.org/t/p/w300${episode.still_path}`}
