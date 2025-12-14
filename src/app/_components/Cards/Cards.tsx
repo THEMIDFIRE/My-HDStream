@@ -208,9 +208,9 @@ export function ReviewCard({ review }: any) {
 export function CastCard({ cast }: any) {
     return (
         <Tooltip>
-            <TooltipTrigger asChild>
-                <Card className="p-0 rounded-lg">
-                    <Image src={`https://image.tmdb.org/t/p/original${cast.profile_path}`} alt={cast.name} width={130} height={180} className="rounded-lg aspect-2/3" />
+            <TooltipTrigger className="w-full aspect-3/4">
+                <Card className="rounded-lg relative h-full">
+                    <Image src={`https://image.tmdb.org/t/p/original${cast.profile_path}`} alt={cast.name} fill className="rounded-lg object-cover" />
                 </Card>
             </TooltipTrigger>
             <TooltipContent side="bottom" className="flex flex-col items-center">

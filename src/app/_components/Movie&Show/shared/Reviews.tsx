@@ -23,12 +23,12 @@ export default function Reviews({ reviews }: any) {
 
     return (
         <>
-            <div className="bg-gray-100/5 rounded-lg px-16 py-14 space-y-10">
+            <div className="bg-gray-100/5 rounded-lg px-5 py-7 md:px-16 md:py-14 space-y-10">
                 <h4 className="text-sm md:text-base 2xl:text-lg font-medium text-gray-500">Reviews</h4>
                 <Carousel opts={{ align: "start", slidesToScroll: 'auto' }} setApi={setApi}>
                     <CarouselContent>
                         {reviews.map((review: any) => (
-                            <CarouselItem key={review.id} className="basis-1/2">
+                            <CarouselItem key={review.id} className="nd:basis-1/2">
                                 <ReviewCard review={review} />
                             </CarouselItem>
                         ))}
@@ -48,8 +48,8 @@ export default function Reviews({ reviews }: any) {
                             />
                         ))}
                     </div>
-                    <CarouselPrevious className="-left-12" />
-                    <CarouselNext className="-right-12" />
+                    <CarouselPrevious className="-left-12 max-md:hidden" />
+                    <CarouselNext className="-right-12 max-md:hidden" />
                 </Carousel>
             </div>
         </>
