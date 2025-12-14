@@ -1,13 +1,10 @@
+import Cast from '@/app/_components/Movie&Show/shared/Cast';
+import Reviews from '@/app/_components/Movie&Show/shared/Reviews';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { getShowDetails } from '@/lib/api';
-import {
-    ArrowLeftIcon,
-    CalendarIcon,
-    ClockIcon,
-    StarIcon
-} from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, CalendarIcon, ClockIcon, StarIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,7 +16,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps) {
     const { id } = await params;
     const details = await getShowDetails(parseInt(id));
-    
+
 
     return {
         title: `${details.name || 'Show'} | My HDStream`,
@@ -38,6 +35,9 @@ export default async function ShowDetails({ params }: PageProps) {
     const { id } = await params;
     const details = await getShowDetails(parseInt(id));
 
+    const cast = details.credits.cast
+    const reviews = details.reviews.results
+
     // Helper functions
     const formatRuntime = (minutes: number) => {
         const hours = Math.floor(minutes / 60);
@@ -53,31 +53,12 @@ export default async function ShowDetails({ params }: PageProps) {
         });
     };
 
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0,
-        }).format(amount);
-    };
-
     return (
         <section className='mb-20 md:mb-28 2xl:mb-32'>
             <div className="relative w-full">
                 {/* Hero Section with Backdrop */}
-                <div className="relative w-full h-[50vh] md:h-[70vh]">
-                    {details.backdrop_path ? (
-                        <Image
-                            src={`https://image.tmdb.org/t/p/original${details.backdrop_path}`}
-                            fill
-                            className="object-cover"
-                            alt={details.name || 'Show backdrop'}
-                            priority
-                            sizes="100vw"
-                        />
-                    ) : (
-                        <div className="w-full h-full bg-gray-800" />
-                    )}
+                <div className={`relative w-full h-[60dvh] md:h-[70dvh] ${details.backdrop_path ? 'bg-center bg-cover bg-no-repeat md:bg-center bg-fixed 100vw' : 'w-full h-full bg-gray-800'}`}
+                    style={{ backgroundImage: details.backdrop_path ? `url(https://image.tmdb.org/t/p/original${details.backdrop_path})` : '' }}>
 
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent" />
@@ -94,7 +75,7 @@ export default async function ShowDetails({ params }: PageProps) {
                 </div>
 
                 {/* Content Section */}
-                <div className="container max-w-11/12 md:max-w-4/5 mx-auto -mt-32 relative z-10">
+                <div className="container max-w-11/12 md:max-w-4/5 mx-auto -mt-32 relative z-10 space-y-12">
                     <div className="flex flex-col md:flex-row gap-8">
                         {/* Poster */}
                         <div className="shrink-0 w-full md:w-80">
@@ -175,7 +156,7 @@ export default async function ShowDetails({ params }: PageProps) {
                             {/* Overview */}
                             <div>
                                 <h2 className="text-2xl font-semibold text-white mb-3">Overview</h2>
-                                <p className="text-gray-300 leading-relaxed">
+                                <p className="text-gray-400 leading-relaxed">
                                     {details.overview || 'No overview available.'}
                                 </p>
                             </div>
@@ -200,20 +181,6 @@ export default async function ShowDetails({ params }: PageProps) {
                                     </div>
                                 )}
 
-                                {details.budget > 0 && (
-                                    <div>
-                                        <span className="text-gray-400">Budget:</span>
-                                        <span className="ml-2 text-white">{formatCurrency(details.budget)}</span>
-                                    </div>
-                                )}
-
-                                {details.revenue > 0 && (
-                                    <div>
-                                        <span className="text-gray-400">Revenue:</span>
-                                        <span className="ml-2 text-white">{formatCurrency(details.revenue)}</span>
-                                    </div>
-                                )}
-
                                 {details.original_language && (
                                     <div>
                                         <span className="text-gray-400">Original Language:</span>
@@ -223,6 +190,8 @@ export default async function ShowDetails({ params }: PageProps) {
                             </div>
                         </div>
                     </div>
+                    <Cast cast={cast} type="tv" />
+                    <Reviews reviews={reviews} type="tv" />
                 </div>
             </div>
         </section>

@@ -1,4 +1,5 @@
 "use client"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -21,7 +22,23 @@ export function DeviceCard({ icon, title, description }: { icon: any, title: str
     )
 }
 
-// Updated Cards.tsx - Replace the genre card components with this unified version
+export function PriceCard({ title, description, price, currency, period }: { title: string, description: string, price: number, currency: string, period: string }) {
+    return (
+        <Card className="min-w-[30%] 2xl:px-7 2xl:py-12 space-y-2 md:space-y-3 2xl:space-y-7">
+            <CardHeader className="space-y-2.5 md:space-y-3 2xl:space-y-4">
+                <CardTitle className="text-lg md:text-xl 2xl:text-2xl font-bold">{title}</CardTitle>
+                <CardDescription className="text-sm md:text-base 2xl:text-lg text-gray-300/50">{description}</CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm md:text-base 2xl:text-lg font-medium text-gray-300/50">
+                <span className="text-white text-2xl md:text-3xl 2xl:text-4xl font-semibold">{currency}{price}</span> /{period}
+            </CardContent>
+            <CardFooter className="gap-3 justify-center">
+                <Button className="bg-black text-white text-sm 2xl:text-lg font-semibold rounded px-7 py-6 ">Start free trial</Button>
+                <Button className="bg-red-500 text-white text-sm 2xl:text-lg font-semibold rounded px-7 py-6 ">Choose Plan</Button>
+            </CardFooter>
+        </Card>
+    )
+}
 
 interface GenreCardProps {
     genre: {
@@ -59,30 +76,12 @@ export function GenreCard({ genre, type }: GenreCardProps) {
     );
 }
 
-// Convenience aliases for backward compatibility
 export function MovieGenresCard({ genre }: { genre: GenreCardProps['genre'] }) {
     return <GenreCard genre={genre} type="movie" />;
 }
 
 export function ShowsGenresCard({ genre }: { genre: GenreCardProps['genre'] }) {
     return <GenreCard genre={genre} type="tv" />;
-}
-export function PriceCard({ title, description, price, currency, period }: { title: string, description: string, price: number, currency: string, period: string }) {
-    return (
-        <Card className="min-w-[30%] 2xl:px-7 2xl:py-12 space-y-2 md:space-y-3 2xl:space-y-7">
-            <CardHeader className="space-y-2.5 md:space-y-3 2xl:space-y-4">
-                <CardTitle className="text-lg md:text-xl 2xl:text-2xl font-bold">{title}</CardTitle>
-                <CardDescription className="text-sm md:text-base 2xl:text-lg text-gray-300/50">{description}</CardDescription>
-            </CardHeader>
-            <CardContent className="text-sm md:text-base 2xl:text-lg font-medium text-gray-300/50">
-                <span className="text-white text-2xl md:text-3xl 2xl:text-4xl font-semibold">{currency}{price}</span> /{period}
-            </CardContent>
-            <CardFooter className="gap-3 justify-center">
-                <Button className="bg-black text-white text-sm 2xl:text-lg font-semibold rounded px-7 py-6 ">Start free trial</Button>
-                <Button className="bg-red-500 text-white text-sm 2xl:text-lg font-semibold rounded px-7 py-6 ">Choose Plan</Button>
-            </CardFooter>
-        </Card>
-    )
 }
 
 // Unified interface for both movies and TV shows
@@ -172,4 +171,52 @@ export function MovieCard({ movie }: { movie: MediaCardProps['item'] }) {
 
 export function ShowCard({ show }: { show: MediaCardProps['item'] }) {
     return <MediaCard item={show} type="tv" />;
+}
+
+export function ReviewCard({ review }: any) {
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    };
+
+    return (
+        <Card>
+            <CardHeader className="flex items-center">
+                <Avatar>
+                    <AvatarImage src={`https://image.tmdb.org/t/p/original${review.author_details.avatar_path}`} />
+                    <AvatarFallback>
+                        {review.author_details.name.split(" ")[0][0]}
+                    </AvatarFallback>
+                </Avatar>
+                <CardTitle className="flex flex-col space-y-0.5">
+                    <span>{review.author_details.name}</span>
+                    <span className="text-xs text-gray-500/50">{formatDate(review.created_at)}</span>
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                <CardDescription className="line-clamp-6 text-balance text-justify">
+                    {review.content}
+                </CardDescription>
+            </CardContent>
+        </Card>
+    )
+}
+
+export function CastCard({ cast }: any) {
+    return (
+        <Tooltip>
+            <TooltipTrigger asChild>
+                <Card className="p-0 rounded-lg">
+                    <Image src={`https://image.tmdb.org/t/p/original${cast.profile_path}`} alt={cast.name} width={130} height={180} className="rounded-lg aspect-2/3" />
+                </Card>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="flex flex-col items-center">
+                <span>{cast.original_name}</span>
+                <span className="text-xs text-gray-700">{cast.character}</span>
+            </TooltipContent>
+        </Tooltip>
+    )
 }

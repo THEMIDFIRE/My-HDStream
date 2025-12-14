@@ -71,10 +71,8 @@ export default function Trending({ trending }: TrendingProps) {
                                             priority={index === 0}
                                         />
 
-                                        {/* Gradient Overlay */}
                                         <div className="absolute inset-0 bg-linear-to-t from-black/80 from-5% via-black/90 via-5% to-70% to-transparent z-10"></div>
 
-                                        {/* Content */}
                                         <div className='absolute bottom-0 md:bottom-1/6 left-0 right-0 z-20 text-center px-10'>
                                             <h2 className="text-white text-3xl md:text-4xl font-bold mb-0.5">
                                                 {title}
@@ -94,7 +92,6 @@ export default function Trending({ trending }: TrendingProps) {
                                                     </Button>
                                                 </Link>
                                                 
-                                                {/* Info Button - Using Link wrapper for SEO */}
                                                 <Link href={detailsRoute}>
                                                     <Button 
                                                         variant='default' 
@@ -112,7 +109,6 @@ export default function Trending({ trending }: TrendingProps) {
                         })}
                     </CarouselContent>
 
-                    {/* Navigation Controls - Exact original styling */}
                     <div className="max-md:hidden flex justify-between items-center absolute left-0 right-0 bottom-3.5 px-10">
                         <Button 
                             variant='default' 

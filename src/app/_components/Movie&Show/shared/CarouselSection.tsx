@@ -2,10 +2,17 @@
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { GenreCard } from "../../Cards/Cards";
+import { MediaCard } from "../../Cards/Cards";
 
-export default function Genres({ genres }: any) {
+interface CarouselSectionProps {
+    items: any[];
+    title: string;
+    type: 'movie' | 'tv';
+}
+
+export function CarouselSection({ items, title, type }: CarouselSectionProps) {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
     const [count, setCount] = useState(0);
@@ -21,10 +28,18 @@ export default function Genres({ genres }: any) {
         });
     }, [api]);
 
+    // Default path builder if none provided
+    const getItemPath = (id: number) => {
+        // if (linkPathBuilder) return linkPathBuilder(id);
+        return type === 'movie' 
+            ? `/Movies&Shows/movie/${id}` 
+            : `/Movies&Shows/tv/${id}`;
+    };
+
     return (
         <>
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl md:text-3xl font-bold text-white">Genres</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-white">{title}</h2>
                 <div className="hidden md:flex items-center justify-center h-fit gap-3 p-3 bg-black rounded-lg border">
                     <Button variant="outline" size="icon" onClick={() => api?.scrollPrev()} className="p-2.5">
                         <ArrowLeftIcon />
@@ -34,7 +49,9 @@ export default function Genres({ genres }: any) {
                             <button
                                 key={index}
                                 onClick={() => api?.scrollTo(index)}
-                                className={`w-3 h-1 rounded transition-all ${current === index ? 'bg-red-500 w-4' : 'bg-white'}`}
+                                className={`w-3 h-1 rounded transition-all ${
+                                    current === index ? 'bg-red-500 w-4' : 'bg-white'
+                                }`}
                                 aria-label={`Go to slide ${index + 1}`}
                             />
                         ))}
@@ -46,13 +63,15 @@ export default function Genres({ genres }: any) {
             </div>
             <Carousel setApi={setApi} opts={{ slidesToScroll: "auto" }} className="md:mt-10 2xl:mt-12">
                 <CarouselContent className="-ml-2 md:-ml-4">
-                    {genres.map((genre: any) => (
-                        <CarouselItem key={genre.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
-                            <GenreCard genre={genre} type="movie" />
+                    {items.map((item: any) => (
+                        <CarouselItem key={item.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
+                            <Link href={getItemPath(item.id)}>
+                                <MediaCard item={item} type={type} />
+                            </Link>
                         </CarouselItem>
                     ))}
                 </CarouselContent>
             </Carousel>
         </>
-    )
+    );
 }

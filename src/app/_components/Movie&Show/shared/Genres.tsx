@@ -2,11 +2,15 @@
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { MediaCard } from "../../Cards/Cards";
+import { GenreCard } from "../../Cards/Cards";
 
-export default function Popular({ popular }: any) {
+interface GenresCarouselProps {
+    genres: any[];
+    type: 'movie' | 'tv';
+}
+
+export function Genres({ genres, type }: GenresCarouselProps) {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
     const [count, setCount] = useState(0);
@@ -22,12 +26,10 @@ export default function Popular({ popular }: any) {
         });
     }, [api]);
 
-    const shows = popular
-
     return (
         <>
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl md:text-3xl font-bold text-white">All time Popular</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-white">Genres</h2>
                 <div className="hidden md:flex items-center justify-center h-fit gap-3 p-3 bg-black rounded-lg border">
                     <Button variant="outline" size="icon" onClick={() => api?.scrollPrev()} className="p-2.5">
                         <ArrowLeftIcon />
@@ -37,7 +39,9 @@ export default function Popular({ popular }: any) {
                             <button
                                 key={index}
                                 onClick={() => api?.scrollTo(index)}
-                                className={`w-3 h-1 rounded transition-all ${current === index ? 'bg-red-500 w-4' : 'bg-white'}`}
+                                className={`w-3 h-1 rounded transition-all ${
+                                    current === index ? 'bg-red-500 w-4' : 'bg-white'
+                                }`}
                                 aria-label={`Go to slide ${index + 1}`}
                             />
                         ))}
@@ -49,15 +53,13 @@ export default function Popular({ popular }: any) {
             </div>
             <Carousel setApi={setApi} opts={{ slidesToScroll: "auto" }} className="md:mt-10 2xl:mt-12">
                 <CarouselContent className="-ml-2 md:-ml-4">
-                    {shows.map((show: any) => (
-                        <CarouselItem key={show.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
-                            <Link href={`/Movies&Shows/tv/${show.id}`} key={show.id}>
-                                <MediaCard item={show} type="tv" />
-                            </Link>
+                    {genres.map((genre: any) => (
+                        <CarouselItem key={genre.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
+                            <GenreCard genre={genre} type={type} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
             </Carousel>
         </>
-    )
+    );
 }
