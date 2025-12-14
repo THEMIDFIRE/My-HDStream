@@ -1,6 +1,19 @@
 'use client'
 
-import { getMovieDetails, getMovieGenres, getMoviesByGenre, getPopularMovies, getPopularShows, getShowDetails, getShowsByGenre, getShowsGenres, getTopRatedMovies, getTopRatedShows, getTrending } from '@/lib/api'
+import {
+    getMovieDetails,
+    getMovieGenres,
+    getMoviesByGenre,
+    getPopularMovies,
+    getPopularShows,
+    getShowDetails,
+    getShowEpisodes,
+    getShowsByGenre,
+    getShowsGenres,
+    getTopRatedMovies,
+    getTopRatedShows,
+    getTrending
+} from '@/lib/api'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 // Trending content
@@ -8,7 +21,7 @@ export function useTrending() {
     return useQuery({
         queryKey: ['trending'],
         queryFn: getTrending,
-        staleTime: 5 * 60 * 1000, // 5 minutes
+        staleTime: 5 * 60 * 1000,
     })
 }
 
@@ -16,14 +29,15 @@ export function useTopRatedMovies() {
     return useQuery({
         queryKey: ['movies', 'toprated'],
         queryFn: getTopRatedMovies,
-        staleTime: 10 * 60 * 1000, // 10 minutes
+        staleTime: 10 * 60 * 1000,
     })
 }
+
 export function useTopRatedShows() {
     return useQuery({
         queryKey: ['shows', 'toprated'],
         queryFn: getTopRatedShows,
-        staleTime: 10 * 60 * 1000, // 10 minutes
+        staleTime: 10 * 60 * 1000,
     })
 }
 
@@ -31,46 +45,43 @@ export function usePopularMovies() {
     return useQuery({
         queryKey: ['movies', 'popular'],
         queryFn: getPopularMovies,
-        staleTime: 10 * 60 * 1000, // 10 minutes
+        staleTime: 10 * 60 * 1000,
     })
 }
+
 export function usePopularShows() {
     return useQuery({
         queryKey: ['shows', 'popular'],
         queryFn: getPopularShows,
-        staleTime: 10 * 60 * 1000, // 10 minutes
+        staleTime: 10 * 60 * 1000,
     })
 }
 
-// Movie genres
 export function useMovieGenres() {
     return useQuery({
         queryKey: ['genres', 'movies'],
         queryFn: getMovieGenres,
-        staleTime: 60 * 60 * 1000, // 1 hour - genres don't change often
+        staleTime: 60 * 60 * 1000,
     })
 }
 
-// TV show genres
 export function useShowsGenres() {
     return useQuery({
         queryKey: ['genres', 'shows'],
         queryFn: getShowsGenres,
-        staleTime: 60 * 60 * 1000, // 1 hour
+        staleTime: 60 * 60 * 1000,
     })
 }
 
-// Movies by genre with pagination
 export function useMoviesByGenre(genreId: number, page: number) {
     return useQuery({
         queryKey: ['movies', 'genre', genreId, page],
         queryFn: () => getMoviesByGenre(genreId, page),
         enabled: !!genreId && page > 0,
-        staleTime: 10 * 60 * 1000, // 10 minutes
+        staleTime: 10 * 60 * 1000,
     })
 }
 
-// Shows by genre with pagination
 export function useShowsByGenre(genreId: number, page: number) {
     return useQuery({
         queryKey: ['shows', 'genre', genreId, page],
@@ -80,17 +91,15 @@ export function useShowsByGenre(genreId: number, page: number) {
     })
 }
 
-// Movie details
 export function useMovieDetails(movieId: number) {
     return useQuery({
         queryKey: ['movie', movieId],
         queryFn: () => getMovieDetails(movieId),
         enabled: !!movieId,
-        staleTime: 30 * 60 * 1000, // 30 minutes
+        staleTime: 30 * 60 * 1000,
     })
 }
 
-// Show details
 export function useShowDetails(showId: number) {
     return useQuery({
         queryKey: ['show', showId],
@@ -100,7 +109,15 @@ export function useShowDetails(showId: number) {
     })
 }
 
-// Hook to prefetch movie/show details on hover
+export function useShowEpisodes(showId: number, seasonNumber: number) {
+    return useQuery({
+        queryKey: ['show', showId, 'season', seasonNumber, 'episodes'],
+        queryFn: () => getShowEpisodes(showId, seasonNumber),
+        enabled: !!showId && !!seasonNumber,
+        staleTime: 30 * 60 * 1000,
+    })
+}
+
 export function usePrefetchDetails() {
     const queryClient = useQueryClient()
 

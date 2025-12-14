@@ -1,6 +1,7 @@
 "use client"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button";
+import { Minus, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const items: { title: string; content: string; }[] = [
@@ -39,8 +40,8 @@ const items: { title: string; content: string; }[] = [
 ]
 
 export default function FAQ() {
-        const router = useRouter();
-    
+    const router = useRouter();
+
     return (
         <section className="mb-20 md:mb-28 2xl:mb-32">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto">
@@ -59,9 +60,11 @@ export default function FAQ() {
                     <div>
                         {items.slice(0, 4).map((item, index) => (
                             <AccordionItem value={`item-${index}`} className="border-none" key={index}>
-                                <AccordionTrigger className="items-center">
+                                <AccordionTrigger className="items-center [&[data-state=open]>svg]:first-of-type:hidden [&[data-state=closed]>svg]:last-of-type:hidden">
                                     <span className="text-base 2xl:text-xl bg-gray-900/80 p-3 rounded-sm border">{index + 1 < 10 ? `0${index + 1}` : index + 1}</span>
                                     <p className="text-lg md:text-xl 2xl:text-2xl grow">{item.title}</p>
+                                    <Plus className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+                                    <Minus className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
                                 </AccordionTrigger>
                                 <AccordionContent className="text-balance">
                                     <p>
@@ -75,9 +78,11 @@ export default function FAQ() {
                     <div>
                         {items.slice(4, 8).map((item, index) => (
                             <AccordionItem value={`item-${index + 4}`} className="border-none" key={index}>
-                                <AccordionTrigger className="items-center">
+                                <AccordionTrigger className="items-center [&[data-state=open]>svg]:first-of-type:hidden [&[data-state=closed]>svg]:last-of-type:hidden">
                                     <span className="text-base 2xl:text-xl bg-gray-900/80 p-3 rounded-sm border">{index + 5 < 10 ? `0${index + 5}` : index + 5}</span>
                                     <p className="text-lg md:text-xl 2xl:text-2xl grow">{item.title}</p>
+                                    <Plus className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+                                    <Minus className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
                                 </AccordionTrigger>
                                 <AccordionContent className="text-balance">
                                     <p>

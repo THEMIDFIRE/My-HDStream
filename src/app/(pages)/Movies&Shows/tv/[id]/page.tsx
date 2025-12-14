@@ -24,7 +24,8 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function ShowDetailsPage({ params }: PageProps) {
     const { id } = await params;
-    const details = await getShowDetails(parseInt(id));
+    const showId = parseInt(id);
+    const details = await getShowDetails(showId);
 
-    return <Details details={details} type="tv" />;
+    return <Details details={details} type="tv" showId={showId} />;
 }
