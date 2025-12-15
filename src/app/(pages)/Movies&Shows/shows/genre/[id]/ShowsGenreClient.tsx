@@ -87,12 +87,10 @@ export default function ShowsGenreClient({
         <div className="min-h-screen py-10">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto">
                 <div className="mb-8">
-                    <Link href="/Movies&Shows">
-                        <Button variant="outline" className="mb-4">
-                            <ArrowLeftIcon className="w-4 h-4 mr-2" />
-                            Back to Home
-                        </Button>
-                    </Link>
+                    <Button onClick={() => router.back()} variant="outline" className="mb-4">
+                        <ArrowLeftIcon className="w-4 h-4 mr-2" />
+                        Back to Home
+                    </Button>
                     <h1 className="text-3xl md:text-4xl font-bold text-white">
                         {genreName} TV Shows
                     </h1>
