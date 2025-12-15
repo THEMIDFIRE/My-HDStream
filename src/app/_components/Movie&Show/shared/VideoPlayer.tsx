@@ -28,12 +28,12 @@ export default function VideoPlayer({ type, id, onBack }: VideoPlayerProps) {
     
     let videoUrl = '';
     if (type === 'movie') {
-        videoUrl = `https://vidfast.pro/movie/${id}`;
+        videoUrl = `https://vidsrc-embed.ru/embed/movie/${id}`;
     } else if (type === 'tv') {
         if (seasonNum && episodeNum) {
-            videoUrl = `https://vidfast.pro/tv/${id}/${seasonNum}/${episodeNum}`;
+            videoUrl = `https://vidsrc-embed.ru/embed/tv/${id}/${seasonNum}-${episodeNum}`;
         } else {
-            videoUrl = `https://vidfast.pro/tv/${id}/1/1`;
+            videoUrl = `https://vidsrc-embed.ru/embed/tv/${id}/1-1`;
         }
     } else {
         return (
