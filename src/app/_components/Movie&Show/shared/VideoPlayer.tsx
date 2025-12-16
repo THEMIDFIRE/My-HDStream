@@ -14,11 +14,6 @@ export default function VideoPlayer({ type, id, onBack }: VideoPlayerProps) {
 
     const params = useSearchParams();
 
-    // if (params.get('season') && params.get('episode')) {
-    //     setSeasonNum(Number(params.get('season')));
-    //     setEpisodeNum(Number(params.get('episode')));
-    // }
-
     useEffect(() => {
         if (params.get('season') && params.get('episode')) {
             setSeasonNum(Number(params.get('season')));
