@@ -27,5 +27,5 @@ export default async function ShowDetailsPage({ params }: PageProps) {
     const showId = parseInt(id);
     const details = await getShowDetails(showId);
 
-    return <Details details={details} type="tv" showId={showId} />;
+    return <Details details={details} type="tv" />;
 }

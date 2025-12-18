@@ -4,9 +4,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { getShowEpisodes } from '@/lib/api';
 import { ClockIcon } from '@heroicons/react/24/outline';
 import { ArrowDownIcon } from '@heroicons/react/24/solid';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 
@@ -16,9 +16,11 @@ interface EpisodesProps {
 }
 
 export default function Episodes({ seasons, showId }: EpisodesProps) {
-    const searchParams = useSearchParams();
-    const currentSeason = searchParams.get('season');
-    const currentEpisode = searchParams.get('episode');
+    const params = useSearchParams();
+
+    const currentSeason = params.get('season');
+    const currentEpisode = params.get('episode');
+
 
     const { data: seasonsWithEpisodes, isLoading, isError } = useQuery({
         queryKey: ['show-episodes', showId, seasons.map(s => s.season_number)],
@@ -51,16 +53,15 @@ export default function Episodes({ seasons, showId }: EpisodesProps) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        return seasonsWithEpisodes
-            .map(season => ({
-                ...season,
-                episodes: season.episodes.filter((episode: any) => {
-                    if (!episode.air_date) return false;
-                    const airDate = new Date(episode.air_date);
-                    airDate.setHours(0, 0, 0, 0);
-                    return airDate <= today;
-                })
-            }))
+        return seasonsWithEpisodes.map(season => ({
+            ...season,
+            episodes: season.episodes.filter((episode: any) => {
+                if (!episode.air_date) return false;
+                const airDate = new Date(episode.air_date);
+                airDate.setHours(0, 0, 0, 0);
+                return airDate <= today;
+            })
+        }))
             .filter(season => season.episodes.length > 0);
     }, [seasonsWithEpisodes]);
 
@@ -101,18 +102,19 @@ export default function Episodes({ seasons, showId }: EpisodesProps) {
         return currentSeason === String(seasonNum) && currentEpisode === String(episodeNum);
     };
 
+
     return (
         <section className="mb-20 md:mb-28 2xl:mb-32">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto space-y-10 bg-gray-100/5 rounded-lg px-5 py-7 md:px-16 md:py-14">
                 <h4 className="text-xl 2xl:text-2xl font-medium">Seasons & Episodes</h4>
-                <Accordion type="single" collapsible defaultValue='item-0' className='space-y-4'>
+                <Accordion type="single" collapsible defaultValue={`season-${currentSeason}`} className='space-y-4'>
                     {airedEpisodes.map((season, index) => {
                         const airedCount = season.episodes.length;
                         const totalCount = season.episode_count;
                         return (
-                            <AccordionItem 
-                                value={`item-${index}`} 
-                                className="bg-black p-5 rounded-md" 
+                            <AccordionItem
+                                value={`season-${season.season_number}`}
+                                className="bg-black p-5 rounded-md"
                                 key={season.id || index}
                             >
                                 <AccordionTrigger className='hover:no-underline'>
@@ -130,22 +132,21 @@ export default function Episodes({ seasons, showId }: EpisodesProps) {
                                     <div className="space-y-3">
                                         {season.episodes.map((episode: any) => {
                                             const isActive = isEpisodeActive(season.season_number, episode.episode_number);
-                                            
                                             return (
-                                                <Link 
+                                                <Link
                                                     key={episode.id}
                                                     href={`?watch=true&season=${season.season_number}&episode=${episode.episode_number}`}
                                                 >
-                                                    <div 
-                                                        className='border-t-2 pt-4' 
+                                                    <div
+                                                        className='border-t-2 pt-4'
                                                         id={`season-${season.season_number} episode-${episode.episode_number}`}
                                                     >
                                                         <div className={`
                                                             flex items-center gap-3 max-md:flex-col 
                                                             px-4 py-5 rounded-md max-md:space-y-3
                                                             transition-all duration-200
-                                                            ${isActive 
-                                                                ? 'bg-blue-900/40 border border-blue-500' 
+                                                            ${isActive
+                                                                ? 'bg-blue-900/40 border border-blue-500'
                                                                 : 'hover:bg-gray-900/70 border-2 border-transparent'
                                                             }
                                                         `}>

@@ -9,7 +9,7 @@ interface MediaDetailsProps {
     showId?: number
 }
 
-export default function Details({ details, type, showId }: MediaDetailsProps) {
+export default function Details({ details, type }: MediaDetailsProps) {
     
     const seasons = details.seasons;
     const cast = details.credits.cast;

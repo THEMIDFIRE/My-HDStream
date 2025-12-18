@@ -47,7 +47,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </QueryProvider>
-        <Analytics />
+        {/* <Analytics /> */}
       </body>
     </html>
   );

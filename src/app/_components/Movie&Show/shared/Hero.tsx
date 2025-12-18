@@ -13,14 +13,79 @@ interface MediaDetailsProps {
     details: any;
     type: 'movie' | 'tv';
 }
+interface WatchHistoryItem {
+    id: number;
+    season: string;
+    episode: string;
+}
 
 export default function Hero({ details, type }: MediaDetailsProps) {
     const [isWatching, setIsWatching] = useState(false);
+    const [showId] = useState(details.id);
+    const [currentSeason, setCurrentSeason] = useState('1');
+    const [currentEpisode, setCurrentEpisode] = useState('1');
 
     const router = useRouter();
     const params = useSearchParams();
 
     const mediaTitle = type === 'movie' ? details.title : details.name;
+
+    useEffect(() => {
+        if (type === 'tv') {
+            const watchList = localStorage.getItem('watchList');
+            if (watchList) {
+                const watchHistory = JSON.parse(watchList);
+                const existingHistory = watchHistory.find((item: any) => item.id === details.id);
+                if (existingHistory) {
+                    setCurrentSeason(existingHistory.season);
+                    setCurrentEpisode(existingHistory.episode);
+                }
+            }
+        }
+    }, [details.id, type]);
+
+    useEffect(() => {
+        const season = params.get('season');
+        const episode = params.get('episode');
+        const watching = params.get('watch') === 'true';
+
+        if (watching && season && episode && type === 'tv') {
+            setCurrentSeason(season);
+            setCurrentEpisode(episode);
+
+            saveWatchHistory(season, episode);
+        }
+    },[params, type, details.id]);
+
+    const saveWatchHistory = (season: string, episode: string) => {
+        const watchList = localStorage.getItem('watchList') || '[]';
+        const watchHistory = JSON.parse(watchList);
+        const existingHistoryIndex = watchHistory.findIndex((item: any) => item.id === details.id);
+
+        const updateItem: WatchHistoryItem = {
+            id: details.id,
+            season,
+            episode
+        };
+
+        if (existingHistoryIndex !== -1) {
+            watchHistory[existingHistoryIndex] = updateItem;
+        } else {
+            watchHistory.push(updateItem);
+        }
+
+        localStorage.setItem('watchList', JSON.stringify(watchHistory));
+    }
+
+    const handleWatch = () => {
+        if (type === 'movie') {
+            router.push(`?watch=true`);
+        } else {
+            router.push(`?watch=true&season=${currentSeason}&episode=${currentEpisode}`);
+            saveWatchHistory(currentSeason, currentEpisode);
+        }
+        setIsWatching(true);
+    };
 
     const formatRuntime = (minutes: number) => {
         const hours = Math.floor(minutes / 60);
@@ -36,29 +101,10 @@ export default function Hero({ details, type }: MediaDetailsProps) {
         });
     };
 
-    const handleWatch = () => {
-        if (type === 'tv') {
-            if (params.get('season') && params.get('episode')) {
-                router.push(`?watch=true&season=${params.get('season')}&episode=${params.get('episode')}`);
-            } else {
-                router.push('?watch=true&season=1&episode=1');
-            }
-        } else {
-            router.push('?watch=true');
-        }
-        setIsWatching(true);
-    };
-
-    useEffect(() => {
-        if (params.get('watch') === 'true') {
-            setIsWatching(true);
-        }
-    }, [params]);
-
     return (
         <>
             {isWatching ? (
-                <VideoPlayer type={type} id={details.id} onBack={() => {router.push(window.location.pathname); setIsWatching(false)}} />
+                <VideoPlayer type={type} id={details.id} onBack={() => { router.push(window.location.pathname); setIsWatching(false) }} />
             ) : (
                 <section className='mb-20 md:mb-28 2xl:mb-32'>
 
@@ -177,13 +223,24 @@ export default function Hero({ details, type }: MediaDetailsProps) {
                                         </p>
                                     </div>
 
+                                    {type === 'tv' && (currentSeason !== '1' || currentEpisode !== '1') && (
+                                        <div className="bg-blue-500/20 border border-blue-500/50 rounded-lg p-3">
+                                            <p className="text-blue-400 text-sm">
+                                                Continue watching: Season {currentSeason}, Episode {currentEpisode}
+                                            </p>
+                                        </div>
+                                    )}
+
                                     {/* Action Buttons */}
                                     <div className="flex gap-3">
                                         <Button
-                                            onClick={() => handleWatch()}
-                                            className="bg-red-500 hover:bg-red-600 text-white gap-2">
+                                            onClick={handleWatch}
+                                            className="bg-red-500 hover:bg-red-600 text-white gap-2"
+                                        >
                                             <PlayIcon className="w-5 h-5" />
-                                            Play Now
+                                            {type === 'tv' && (currentSeason !== '1' || currentEpisode !== '1')
+                                                ? 'Continue Watching'
+                                                : 'Play Now'}
                                         </Button>
                                         <Button variant="outline">
                                             Add to Watchlist
