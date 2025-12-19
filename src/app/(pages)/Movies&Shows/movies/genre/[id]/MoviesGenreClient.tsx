@@ -1,23 +1,16 @@
 'use client'
 
-import { MediaCard, MovieCard } from '@/app/_components/Cards/Cards';
+import { MediaCard } from '@/app/_components/Cards/Cards';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { useMoviesByGenre, usePrefetchDetails } from '@/hooks/useMovies';
+import { useMoviesByGenre } from '@/hooks/useMovies';
+import { MoviesGenreClientProps } from '@/types/types';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 
-interface MoviesGenreClientProps {
-    genreId: number;
-    genreName: string;
-    initialPage: number;
-    initialData: any;
-}
 export default function MoviesGenreClient({ genreId, genreName, initialPage, initialData }: MoviesGenreClientProps) {
     const [currentPage, setCurrentPage] = useState(initialPage);
     const router = useRouter();

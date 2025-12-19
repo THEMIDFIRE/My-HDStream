@@ -1,26 +1,15 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselContent, CarouselItem, CarouselApi } from '@/components/ui/carousel';
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { TrendingItem, TrendingProps } from '@/types/types';
 import { ArrowLeftIcon, ArrowRightIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
-import { useEffect, useState } from 'react';
 import Autoplay from "embla-carousel-autoplay";
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-interface TrendingItem {
-    id: number;
-    title?: string;
-    name?: string;
-    overview?: string;
-    backdrop_path?: string;
-    media_type?: 'movie' | 'tv';
-}
-
-interface TrendingProps {
-    trending: TrendingItem[];
-}
 
 export default function Trending({ trending }: TrendingProps) {
     const [api, setApi] = useState<CarouselApi>();
@@ -48,9 +37,9 @@ export default function Trending({ trending }: TrendingProps) {
     return (
         <section className="mb-20 md:mb-28 2xl:mb-32">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto">
-                <Carousel 
-                    opts={{ loop: true }} 
-                    plugins={[Autoplay({ delay: 5000 })]} 
+                <Carousel
+                    opts={{ loop: true }}
+                    plugins={[Autoplay({ delay: 5000 })]}
                     setApi={setApi}
                 >
                     <CarouselContent>
@@ -81,22 +70,22 @@ export default function Trending({ trending }: TrendingProps) {
                                             </p>
                                             <div className='space-x-2 mt-5 md:mt-8'>
                                                 <Link href={detailsRoute}>
-                                                    <Button 
-                                                        variant='default' 
+                                                    <Button
+                                                        variant='default'
                                                         className='bg-red-500 text-white hover:bg-red-700 has-[>svg]:px-3.5 has-[>svg]:py-5'
                                                     >
                                                         <PlayIcon />
                                                         Play Now
                                                     </Button>
                                                 </Link>
-                                                
+
                                                 <Link href={detailsRoute}>
-                                                    <Button 
-                                                        variant='default' 
-                                                        size='icon' 
+                                                    <Button
+                                                        variant='default'
+                                                        size='icon'
                                                         className='bg-black text-white hover:bg-gray-800 has-[>svg]:px-3.5 has-[>svg]:py-5'
                                                     >
-                                                        <InformationCircleIcon/>
+                                                        <InformationCircleIcon />
                                                     </Button>
                                                 </Link>
                                             </div>
@@ -108,36 +97,35 @@ export default function Trending({ trending }: TrendingProps) {
                     </CarouselContent>
 
                     <div className="max-md:hidden flex justify-between items-center absolute left-0 right-0 bottom-3.5 px-10">
-                        <Button 
-                            variant='default' 
-                            size='icon' 
-                            onClick={() => api?.scrollPrev()} 
+                        <Button
+                            variant='default'
+                            size='icon'
+                            onClick={() => api?.scrollPrev()}
                             className='pointer-events-auto bg-black hover:bg-gray-900 text-white border rounded'
                         >
                             <ArrowLeftIcon />
                         </Button>
-                        
+
                         <div className='flex items-center justify-center w-full gap-1'>
                             {Array.from({ length: count }).map((_, idx) => (
                                 <Button
-                                    variant='default' 
+                                    variant='default'
                                     size='icon'
                                     key={idx}
                                     onClick={() => api?.scrollTo(idx)}
-                                    className={`h-1 transition-all duration-300 ${
-                                        idx === current
+                                    className={`h-1 transition-all duration-300 ${idx === current
                                             ? 'w-8 bg-red-500 hover:bg-red-500'
                                             : 'w-6 bg-gray-600 hover:bg-red-500/75'
-                                    }`}
+                                        }`}
                                     aria-label={`Go to slide ${idx + 1}`}
                                 />
                             ))}
                         </div>
-                        
-                        <Button 
-                            variant='default' 
-                            size='icon' 
-                            onClick={() => api?.scrollNext()} 
+
+                        <Button
+                            variant='default'
+                            size='icon'
+                            onClick={() => api?.scrollNext()}
                             className='pointer-events-auto bg-black hover:bg-gray-900 text-white border rounded'
                         >
                             <ArrowRightIcon />

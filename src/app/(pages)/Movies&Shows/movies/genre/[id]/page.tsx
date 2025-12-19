@@ -1,10 +1,6 @@
 import { getMoviesByGenre, getMovieGenres } from '@/lib/api';
 import MoviesGenreClient from './MoviesGenreClient';
-
-interface PageProps {
-    params: Promise<{ id: string }>;
-    searchParams: Promise<{ page?: string }>;
-}
+import { PageProps } from '@/types/types';
 
 export async function generateMetadata({ params }: PageProps) {
     const { id } = await params;

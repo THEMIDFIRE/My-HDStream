@@ -1,16 +1,12 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { CarouselSectionProps } from "@/types/types";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { MediaCard } from "../../Cards/Cards";
 
-interface CarouselSectionProps {
-    items: any[];
-    title: string;
-    type: 'movie' | 'tv';
-}
 
 export function CarouselSection({ items, title, type }: CarouselSectionProps) {
     const [api, setApi] = useState<CarouselApi>();

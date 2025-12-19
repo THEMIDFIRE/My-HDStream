@@ -3,8 +3,10 @@
 import { Button } from "@/components/ui/button"
 import { PlayIcon } from "@heroicons/react/24/solid"
 import HeroLogo from "../HeroLogo"
+import { useRouter } from "next/navigation"
 
 export default function Hero() {
+  const router = useRouter()
   return (
     <header className="min-h-screen mb-96 max-w-full w-full">
       <div className="container relative bg-center h-screen max-w-full w-full">
@@ -18,7 +20,7 @@ export default function Hero() {
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold">The Best Streaming Experience</h1>
           <p className="text-lg text-gray-500 mt-3.5 mb-12 hidden md:block">My HDStream is the best streaming experience for watching your favorite movies and shows on demand, anytime, anywhere. With My HDStream, you can enjoy a wide variety of content, including the latest blockbusters, classic movies, popular TV shows, and more. You can also create your own watchlists, so you can easily find the content you want to watch.</p>
           <p className="text-sm text-gray-500 mt-3.5 mb-12 block md:hidden">My HDStream is the best streaming experience for watching your favorite movies and shows on demand, anytime, anywhere.</p>
-          <Button className="text-lg text-white bg-red-500 hover:bg-red-700 transition-all duration-300 ease-in-out has-[>svg]:px-6 py-8"><PlayIcon className="size-6" />Start Watching Now</Button>
+          <Button onClick={() => router.push('/Movies&Shows')} className="text-lg text-white bg-red-500 hover:bg-red-700 transition-all duration-300 ease-in-out has-[>svg]:px-6 py-8"><PlayIcon className="size-6" />Start Watching Now</Button>
         </div>
       </div>
     </header>

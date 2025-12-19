@@ -1,40 +1,19 @@
 'use client'
 
-import { useShowsByGenre, usePrefetchDetails } from '@/hooks/useMovies';
-import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { MediaCard } from '@/app/_components/Cards/Cards';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination";
-import { useState } from 'react';
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { useShowsByGenre } from '@/hooks/useMovies';
+import { ShowsGenreClientProps } from '@/types/types';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { MediaCard, ShowCard } from '@/app/_components/Cards/Cards';
+import { useState } from 'react';
 
-interface ShowsGenreClientProps {
-    genreId: number;
-    genreName: string;
-    initialPage: number;
-    initialData: any;
-}
 
-export default function ShowsGenreClient({
-    genreId,
-    genreName,
-    initialPage,
-    initialData
-}: ShowsGenreClientProps) {
+export default function ShowsGenreClient({ genreId, genreName, initialPage, initialData }: ShowsGenreClientProps) {
     const [currentPage, setCurrentPage] = useState(initialPage);
     const router = useRouter();
-    const { prefetchShow } = usePrefetchDetails();
 
     const { data: showsData, isLoading, isError, error } = useShowsByGenre(genreId, currentPage);
     const { results: shows, totalPages, totalResults } = showsData || initialData;

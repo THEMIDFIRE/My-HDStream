@@ -1,14 +1,11 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { GenresCarouselProps } from "@/types/types";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { GenreCard } from "../../Cards/Cards";
 
-interface GenresCarouselProps {
-    genres: any[];
-    type: 'movie' | 'tv';
-}
 
 export function Genres({ genres, type }: GenresCarouselProps) {
     const [api, setApi] = useState<CarouselApi>();
@@ -39,9 +36,8 @@ export function Genres({ genres, type }: GenresCarouselProps) {
                             <button
                                 key={index}
                                 onClick={() => api?.scrollTo(index)}
-                                className={`w-3 h-1 rounded transition-all ${
-                                    current === index ? 'bg-red-500 w-4' : 'bg-white'
-                                }`}
+                                className={`w-3 h-1 rounded transition-all ${current === index ? 'bg-red-500 w-4' : 'bg-white'
+                                    }`}
                                 aria-label={`Go to slide ${index + 1}`}
                             />
                         ))}

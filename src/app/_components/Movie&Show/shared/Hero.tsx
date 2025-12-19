@@ -2,6 +2,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { MediaDetailsProps, WatchHistoryItem } from '@/types/types';
 import { ArrowLeftIcon, CalendarIcon, ClockIcon, StarIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
@@ -9,15 +10,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import VideoPlayer from './VideoPlayer';
 
-interface MediaDetailsProps {
-    details: any;
-    type: 'movie' | 'tv';
-}
-interface WatchHistoryItem {
-    id: number;
-    season: string;
-    episode: string;
-}
 
 export default function Hero({ details, type }: MediaDetailsProps) {
     const [isWatching, setIsWatching] = useState(false);
@@ -55,7 +47,7 @@ export default function Hero({ details, type }: MediaDetailsProps) {
 
             saveWatchHistory(season, episode);
         }
-    },[params, type, details.id]);
+    }, [params, type, details.id]);
 
     const saveWatchHistory = (season: string, episode: string) => {
         const watchList = localStorage.getItem('watchList') || '[]';

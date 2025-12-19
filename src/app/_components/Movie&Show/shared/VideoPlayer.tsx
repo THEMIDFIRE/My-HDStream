@@ -1,12 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { VideoPlayerProps } from "@/types/types";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-interface VideoPlayerProps {
-    type: 'movie' | 'tv';
-    id?: number;
-    onBack: () => void;
-}
 
 export default function VideoPlayer({ type, id, onBack }: VideoPlayerProps) {
     const [seasonNum, setSeasonNum] = useState(1);
@@ -20,7 +16,7 @@ export default function VideoPlayer({ type, id, onBack }: VideoPlayerProps) {
             setEpisodeNum(Number(params.get('episode')));
         }
     }, [params]);
-    
+
     let videoUrl = '';
     if (type === 'movie') {
         videoUrl = `https://vidsrc-embed.ru/embed/movie/${id}`;

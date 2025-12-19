@@ -1,3 +1,14 @@
+import type {
+    Genre,
+    MovieDetails,
+    ShowDetails,
+    SeasonEpisodes,
+    PaginatedResponse,
+    Movie,
+    TVShow,
+    TrendingItem
+} from '@/types/types';
+
 const getApiConfig = () => {
     const isServer = typeof window === 'undefined';
     return {
@@ -30,94 +41,74 @@ async function fetchFromApi<T>(endpoint: string): Promise<T> {
 }
 
 // Trending
-export async function getTrending() {
-    const data = await fetchFromApi<{ results: any[] }>('/trending/all/week?language=en-US');
+export async function getTrending(): Promise<TrendingItem[]> {
+    const data = await fetchFromApi<{ results: TrendingItem[] }>('/trending/all/week?language=en-US');
     return data.results || [];
 }
 
-// Types for Details
-interface MovieDetails {
-    id: number;
-    title: string;
-    overview: string;
-    backdrop_path?: string;
-    poster_path?: string;
-    release_date?: string;
-    vote_average?: number;
-    runtime?: number;
-    genres?: Array<{ id: number; name: string }>;
-    credits?: any;
-    reviews?: any;
-    [key: string]: any;
-}
-
-interface ShowDetails {
-    id: number;
-    name: string;
-    overview: string;
-    backdrop_path?: string;
-    poster_path?: string;
-    first_air_date?: string;
-    vote_average?: number;
-    number_of_seasons?: number;
-    number_of_episodes?: number;
-    genres?: Array<{ id: number; name: string }>;
-    credits?: any;
-    reviews?: any;
-    seasons?: any[];
-    [key: string]: any;
-}
-
 // Genres
-export async function getGenres(type: 'movie' | 'tv') {
-    const data = await fetchFromApi<{ genres: any[] }>(`/genre/${type}/list?language=en`);
+export async function getGenres(type: 'movie' | 'tv'): Promise<Genre[]> {
+    const data = await fetchFromApi<{ genres: Genre[] }>(`/genre/${type}/list?language=en`);
     return data.genres || [];
 }
 
-export const getMovieGenres = () => getGenres('movie');
-export const getShowsGenres = () => getGenres('tv');
+export const getMovieGenres = (): Promise<Genre[]> => getGenres('movie');
+export const getShowsGenres = (): Promise<Genre[]> => getGenres('tv');
 
 // Discover by genre with pagination
-interface PaginatedResponse {
-    results: any[];
-    page: number;
-    total_pages: number;
-    total_results: number;
-}
-
-export async function getByGenre(type: 'movie' | 'tv', genreId: number, page: number = 1) {
-    const data = await fetchFromApi<PaginatedResponse>(
+export async function getByGenre(
+    type: 'movie',
+    genreId: number,
+    page?: number
+): Promise<PaginatedResponse<Movie>>;
+export async function getByGenre(
+    type: 'tv',
+    genreId: number,
+    page?: number
+): Promise<PaginatedResponse<TVShow>>;
+export async function getByGenre(
+    type: 'movie' | 'tv',
+    genreId: number,
+    page: number = 1
+): Promise<PaginatedResponse<Movie | TVShow>> {
+    const data = await fetchFromApi<PaginatedResponse<Movie | TVShow>>(
         `/discover/${type}?language=en-US&sort_by=popularity.desc&with_genres=${genreId}&page=${page}`
     );
 
     return {
         results: data.results || [],
         page: data.page || 1,
-        totalPages: data.total_pages || 1,
-        totalResults: data.total_results || 0
+        total_pages: data.total_pages || 1,
+        total_results: data.total_results || 0
     };
 }
 
-export const getMoviesByGenre = (genreId: number, page?: number) => getByGenre('movie', genreId, page);
-export const getShowsByGenre = (genreId: number, page?: number) => getByGenre('tv', genreId, page);
+export const getMoviesByGenre = (genreId: number, page?: number): Promise<PaginatedResponse<Movie>> => 
+    getByGenre('movie', genreId, page);
+export const getShowsByGenre = (genreId: number, page?: number): Promise<PaginatedResponse<TVShow>> => 
+    getByGenre('tv', genreId, page);
 
 // Popular content
-export async function getPopular(type: 'movie' | 'tv') {
-    const data = await fetchFromApi<{ results: any[] }>(`/${type}/popular?language=en-US`);
+export async function getPopular(type: 'movie'): Promise<Movie[]>;
+export async function getPopular(type: 'tv'): Promise<TVShow[]>;
+export async function getPopular(type: 'movie' | 'tv'): Promise<(Movie | TVShow)[]> {
+    const data = await fetchFromApi<{ results: (Movie | TVShow)[] }>(`/${type}/popular?language=en-US`);
     return data.results || [];
 }
 
-export const getPopularMovies = () => getPopular('movie');
-export const getPopularShows = () => getPopular('tv');
+export const getPopularMovies = (): Promise<Movie[]> => getPopular('movie');
+export const getPopularShows = (): Promise<TVShow[]> => getPopular('tv');
 
 // Top rated content
-export async function getTopRated(type: 'movie' | 'tv') {
-    const data = await fetchFromApi<{ results: any[] }>(`/${type}/top_rated?language=en-US`);
+export async function getTopRated(type: 'movie'): Promise<Movie[]>;
+export async function getTopRated(type: 'tv'): Promise<TVShow[]>;
+export async function getTopRated(type: 'movie' | 'tv'): Promise<(Movie | TVShow)[]> {
+    const data = await fetchFromApi<{ results: (Movie | TVShow)[] }>(`/${type}/top_rated?language=en-US`);
     return data.results || [];
 }
 
-export const getTopRatedMovies = () => getTopRated('movie');
-export const getTopRatedShows = () => getTopRated('tv');
+export const getTopRatedMovies = (): Promise<Movie[]> => getTopRated('movie');
+export const getTopRatedShows = (): Promise<TVShow[]> => getTopRated('tv');
 
 // Details
 export async function getDetails(type: 'movie', id: number): Promise<MovieDetails>;
@@ -130,47 +121,35 @@ export const getMovieDetails = (movieId: number): Promise<MovieDetails> => getDe
 export const getShowDetails = (showId: number): Promise<ShowDetails> => getDetails('tv', showId);
 
 // Show episodes (specific to TV shows)
-interface SeasonEpisodes {
-    id: number;
-    name: string;
-    overview: string;
-    season_number: number;
-    episodes: Array<{
-        id: number;
-        name: string;
-        overview: string;
-        episode_number: number;
-        air_date?: string;
-        still_path?: string;
-        runtime?: number;
-        [key: string]: any;
-    }>;
-    [key: string]: any;
-}
-
 export async function getShowEpisodes(showId: number, seasonId: number): Promise<SeasonEpisodes> {
     return fetchFromApi(`/tv/${showId}/season/${seasonId}`);
 }
 
 // Search
-export async function searchMedia(type: 'movie' | 'tv', query: string, page: number = 1) {
+export async function searchMedia(type: 'movie', query: string, page?: number): Promise<PaginatedResponse<Movie>>;
+export async function searchMedia(type: 'tv', query: string, page?: number): Promise<PaginatedResponse<TVShow>>;
+export async function searchMedia(
+    type: 'movie' | 'tv',
+    query: string,
+    page: number = 1
+): Promise<PaginatedResponse<Movie | TVShow>> {
     if (!query || query.trim().length === 0) {
         return {
             results: [],
             page: 1,
-            totalPages: 0,
-            totalResults: 0
+            total_pages: 0,
+            total_results: 0
         };
     }
 
-    const data = await fetchFromApi<PaginatedResponse>(
+    const data = await fetchFromApi<PaginatedResponse<Movie | TVShow>>(
         `/search/${type}?query=${encodeURIComponent(query)}&page=${page}&language=en-US&include_adult=false`
     );
 
     return {
         results: data.results || [],
         page: data.page || 1,
-        totalPages: data.total_pages || 1,
-        totalResults: data.total_results || 0
+        total_pages: data.total_pages || 1,
+        total_results: data.total_results || 0
     };
 }

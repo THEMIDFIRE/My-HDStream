@@ -2,12 +2,8 @@ import Cast from '@/app/_components/Movie&Show/shared/Cast';
 import Reviews from '@/app/_components/Movie&Show/shared/Reviews';
 import Episodes from '@/app/_components/Movie&Show/Shows/Episodes';
 import Hero from './Hero';
+import { MediaDetailsProps } from '@/types/types';
 
-interface MediaDetailsProps {
-    details: any;
-    type: 'movie' | 'tv';
-    showId?: number
-}
 
 export default function Details({ details, type }: MediaDetailsProps) {
     

@@ -2,6 +2,7 @@
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { getShowEpisodes } from '@/lib/api';
+import { EpisodesProps } from '@/types/types';
 import { ClockIcon } from '@heroicons/react/24/outline';
 import { ArrowDownIcon } from '@heroicons/react/24/solid';
 import { useQuery } from '@tanstack/react-query';
@@ -10,10 +11,6 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 
-interface EpisodesProps {
-    seasons: any[];
-    showId: number;
-}
 
 export default function Episodes({ seasons, showId }: EpisodesProps) {
     const params = useSearchParams();

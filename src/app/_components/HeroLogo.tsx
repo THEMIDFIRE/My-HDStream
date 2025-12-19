@@ -1,10 +1,5 @@
+import { HeroLogoProps } from '@/types/types';
 import React from 'react';
-
-interface HeroLogoProps {
-    className?: string;
-    width?: number | string;
-    height?: number | string;
-}
 
 const HeroLogo: React.FC<HeroLogoProps> = ({
     className = '',

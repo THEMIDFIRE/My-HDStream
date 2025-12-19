@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { usePrefetchDetails } from '@/hooks/useMovies';
+import { GenreCardProps, MediaCardProps } from "@/types/types";
 import { StarIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
@@ -38,14 +39,6 @@ export function PriceCard({ title, description, price, currency, period }: { tit
             </CardFooter>
         </Card>
     )
-}
-
-interface GenreCardProps {
-    genre: {
-        id: number;
-        name: string;
-    };
-    type?: 'movie' | 'tv';
 }
 
 export function GenreCard({ genre, type }: GenreCardProps) {
@@ -84,19 +77,6 @@ export function ShowsGenresCard({ genre }: { genre: GenreCardProps['genre'] }) {
     return <GenreCard genre={genre} type="tv" />;
 }
 
-interface MediaCardProps {
-    item: {
-        id: number;
-        title?: string;
-        name?: string;
-        poster_path?: string;
-        vote_average?: number;
-        release_date?: string;
-        first_air_date?: string;
-        media_type?: 'movie' | 'tv';
-    };
-    type?: 'movie' | 'tv';
-}
 
 export function MediaCard({ item, type }: MediaCardProps) {
     const { prefetchMovie, prefetchShow } = usePrefetchDetails();

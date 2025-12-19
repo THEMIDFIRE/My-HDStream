@@ -1,10 +1,7 @@
 import Details from '@/app/_components/Movie&Show/shared/Details';
 import { getShowDetails } from '@/lib/api';
+import { PageProps } from '@/types/types';
 import { cache } from 'react';
-
-interface PageProps {
-    params: Promise<{ id: string }>;
-}
 
 // Cache the API call to prevent duplicate requests
 const getCachedShowDetails = cache(async (id: number) => {
