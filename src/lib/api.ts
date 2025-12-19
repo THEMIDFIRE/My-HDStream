@@ -35,6 +35,39 @@ export async function getTrending() {
     return data.results || [];
 }
 
+// Types for Details
+interface MovieDetails {
+    id: number;
+    title: string;
+    overview: string;
+    backdrop_path?: string;
+    poster_path?: string;
+    release_date?: string;
+    vote_average?: number;
+    runtime?: number;
+    genres?: Array<{ id: number; name: string }>;
+    credits?: any;
+    reviews?: any;
+    [key: string]: any;
+}
+
+interface ShowDetails {
+    id: number;
+    name: string;
+    overview: string;
+    backdrop_path?: string;
+    poster_path?: string;
+    first_air_date?: string;
+    vote_average?: number;
+    number_of_seasons?: number;
+    number_of_episodes?: number;
+    genres?: Array<{ id: number; name: string }>;
+    credits?: any;
+    reviews?: any;
+    seasons?: any[];
+    [key: string]: any;
+}
+
 // Genres
 export async function getGenres(type: 'movie' | 'tv') {
     const data = await fetchFromApi<{ genres: any[] }>(`/genre/${type}/list?language=en`);
@@ -87,12 +120,14 @@ export const getTopRatedMovies = () => getTopRated('movie');
 export const getTopRatedShows = () => getTopRated('tv');
 
 // Details
-export async function getDetails(type: 'movie' | 'tv', id: number) {
+export async function getDetails(type: 'movie', id: number): Promise<MovieDetails>;
+export async function getDetails(type: 'tv', id: number): Promise<ShowDetails>;
+export async function getDetails(type: 'movie' | 'tv', id: number): Promise<MovieDetails | ShowDetails> {
     return fetchFromApi(`/${type}/${id}?append_to_response=credits%2Creviews&language=en-US`);
 }
 
-export const getMovieDetails = (movieId: number) => getDetails('movie', movieId);
-export const getShowDetails = (showId: number) => getDetails('tv', showId);
+export const getMovieDetails = (movieId: number): Promise<MovieDetails> => getDetails('movie', movieId);
+export const getShowDetails = (showId: number): Promise<ShowDetails> => getDetails('tv', showId);
 
 // Show episodes (specific to TV shows)
 export async function getShowEpisodes(showId: number, seasonId: number) {

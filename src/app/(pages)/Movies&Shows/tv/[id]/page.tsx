@@ -1,13 +1,19 @@
 import Details from '@/app/_components/Movie&Show/shared/Details';
 import { getShowDetails } from '@/lib/api';
+import { cache } from 'react';
 
 interface PageProps {
     params: Promise<{ id: string }>;
 }
 
+// Cache the API call to prevent duplicate requests
+const getCachedShowDetails = cache(async (id: number) => {
+    return await getShowDetails(id);
+});
+
 export async function generateMetadata({ params }: PageProps) {
     const { id } = await params;
-    const details = await getShowDetails(parseInt(id));
+    const details = await getCachedShowDetails(parseInt(id));
 
     return {
         title: `${details.name || 'Show'} | My HDStream`,
@@ -24,8 +30,7 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function ShowDetailsPage({ params }: PageProps) {
     const { id } = await params;
-    const showId = parseInt(id);
-    const details = await getShowDetails(showId);
+    const details = await getCachedShowDetails(parseInt(id));
 
     return <Details details={details} type="tv" />;
 }
