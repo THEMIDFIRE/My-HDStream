@@ -88,9 +88,9 @@ export default function Home() {
     <>
       <Hero />
       <Categories genres={genres}/>
-      <Devices />
-      <FAQ />
-      <Pricing />
+      {/* <Devices /> */}
+      {/* <FAQ /> */}
+      {/* <Pricing /> */}
     </>
   )
 }

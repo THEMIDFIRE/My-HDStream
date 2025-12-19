@@ -48,19 +48,20 @@ export default function ContactForm() {
     }
 
     return (
-        <section className="mb-20 md:mb-28 2xl:mb-32">
+        <section>
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto">
                 <div className="flex flex-col md:flex-row md:justify-between gap-12 2xl:gap-20">
                     <div className="md:max-w-2/5 space-y-2.5">
                         <h2 className="text-[28px] md:text-4xl 2xl:text-5xl font-bold">Welcome to our support page!</h2>
                         <p className="text-sm md:text-base 2xl:text-lg font-normal text-gray-400">We're here to help you with any problems you may be having with our product.</p>
-                        <Image
-                            src={"/Support-img.png"}
-                            width={449}
-                            height={547}
-                            alt="Support Image"
-                            className="border-8 rounded-lg mt-8 md:mt-10 2xl:mt-12"
-                        />
+                        <div className="relative border-8 rounded-lg mt-8 md:mt-10 2xl:mt-12 min-h-2/3">
+                            <Image
+                                src={"/Support-img.png"}
+                                fill
+                                alt="Support Image"
+                                className=" object-cover"
+                            />
+                        </div>
                     </div>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="grow flex md:flex-col bg-black border rounded-xl h-fit p-10 space-y-5">

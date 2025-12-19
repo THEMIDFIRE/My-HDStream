@@ -23,7 +23,7 @@ export default function Categories({ genres }: { genres: { id: number, name: str
         })
     }, [api])
     return (
-        <section className="mb-20 md:mb-28 2xl:mb-32">
+        <section className="mb-16 md:mb-24 2xl:mb-28">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto space-y-10 md:space-y-14 2xl:space-y-20">
                 <div className="flex justify-between items-center">
                     <div className="space-y-2 md:space-y-2.5 2xl:space-y-3.5">

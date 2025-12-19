@@ -39,14 +39,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${manrope.className} antialiased dark`}>
-      {/* <body className={`antialiased dark`}> */}
         <QueryProvider>
           <Nav />
           <main>
             {children}
-            <CTA />
+            {/* <CTA /> */}
           </main>
-          <Footer />
+          {/* <Footer /> */}
         </QueryProvider>
         <Analytics />
       </body>
