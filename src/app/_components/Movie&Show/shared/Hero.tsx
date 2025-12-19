@@ -60,7 +60,7 @@ export default function Hero({ details, type }: MediaDetailsProps) {
     const saveWatchHistory = (season: string, episode: string) => {
         const watchList = localStorage.getItem('watchList') || '[]';
         const watchHistory = JSON.parse(watchList);
-        const existingHistoryIndex = watchHistory.findIndex((item: any) => item.id === details.id);
+        const existingHistoryIndex = watchHistory.findIndex((item: any) => item.id === showId);
 
         const updateItem: WatchHistoryItem = {
             id: details.id,
@@ -214,6 +214,7 @@ export default function Hero({ details, type }: MediaDetailsProps) {
                                         <Button
                                             onClick={handleWatch}
                                             className="bg-red-500 hover:bg-red-600 text-white gap-2"
+                                            {...details.status === "Planned" && { disabled: true }}
                                         >
                                             <PlayIcon className="w-5 h-5" />
                                             {type === 'tv' && (currentSeason !== '1' || currentEpisode !== '1')

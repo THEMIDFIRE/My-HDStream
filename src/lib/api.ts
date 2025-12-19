@@ -10,242 +10,114 @@ const getApiConfig = () => {
     };
 };
 
+// Generic fetch function
+async function fetchFromApi<T>(endpoint: string): Promise<T> {
+    const { baseUrl, token } = getApiConfig();
+
+    const res = await fetch(`${baseUrl}${endpoint}`, {
+        cache: "no-store",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error(`API request failed with status ${res.status}`);
+    }
+
+    return res.json();
+}
+
+// Trending
 export async function getTrending() {
-    const { baseUrl, token } = getApiConfig();
-
-    const res = await fetch(`${baseUrl}/trending/all/week?language=en-US`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
-    }
-
-    const data = await res.json()
-    return data.results || []
+    const data = await fetchFromApi<{ results: any[] }>('/trending/all/week?language=en-US');
+    return data.results || [];
 }
 
-export async function getMovieGenres() {
-    const { baseUrl, token } = getApiConfig();
-
-    const res = await fetch(`${baseUrl}/genre/movie/list?language=en`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
-    }
-
-    const data = await res.json()
-    return data.genres || []
+// Genres
+export async function getGenres(type: 'movie' | 'tv') {
+    const data = await fetchFromApi<{ genres: any[] }>(`/genre/${type}/list?language=en`);
+    return data.genres || [];
 }
 
-export async function getShowsGenres() {
-    const { baseUrl, token } = getApiConfig();
+export const getMovieGenres = () => getGenres('movie');
+export const getShowsGenres = () => getGenres('tv');
 
-    const res = await fetch(`${baseUrl}/genre/tv/list?language=en`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
-    }
-
-    const data = await res.json()
-    return data.genres || []
+// Discover by genre with pagination
+interface PaginatedResponse {
+    results: any[];
+    page: number;
+    total_pages: number;
+    total_results: number;
 }
 
-export async function getMoviesByGenre(genreId: number, page: number = 1) {
-    const { baseUrl, token } = getApiConfig();
-
-    const res = await fetch(`${baseUrl}/discover/movie?language=en-US&sort_by=popularity.desc&with_genres=${genreId}&page=${page}`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
-    }
-
-    const data = await res.json()
+export async function getByGenre(type: 'movie' | 'tv', genreId: number, page: number = 1) {
+    const data = await fetchFromApi<PaginatedResponse>(
+        `/discover/${type}?language=en-US&sort_by=popularity.desc&with_genres=${genreId}&page=${page}`
+    );
 
     return {
         results: data.results || [],
         page: data.page || 1,
         totalPages: data.total_pages || 1,
         totalResults: data.total_results || 0
-    }
+    };
 }
 
-export async function getShowsByGenre(genreId: number, page: number = 1) {
-    const { baseUrl, token } = getApiConfig();
+export const getMoviesByGenre = (genreId: number, page?: number) => getByGenre('movie', genreId, page);
+export const getShowsByGenre = (genreId: number, page?: number) => getByGenre('tv', genreId, page);
 
-    const res = await fetch(`${baseUrl}/discover/tv?language=en-US&sort_by=popularity.desc&with_genres=${genreId}&page=${page}`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
-    }
-
-    const data = await res.json()
-
-    return {
-        results: data.results || [],
-        page: data.page || 1,
-        totalPages: data.total_pages || 1,
-        totalResults: data.total_results || 0
-    }
+// Popular content
+export async function getPopular(type: 'movie' | 'tv') {
+    const data = await fetchFromApi<{ results: any[] }>(`/${type}/popular?language=en-US`);
+    return data.results || [];
 }
 
-export async function getPopularMovies() {
+export const getPopularMovies = () => getPopular('movie');
+export const getPopularShows = () => getPopular('tv');
 
-    const { baseUrl, token } = getApiConfig();
-
-    const res = await fetch(`${baseUrl}/movie/popular?language=en-US`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
-    }
-
-    const data = await res.json()
-    return data.results || []
+// Top rated content
+export async function getTopRated(type: 'movie' | 'tv') {
+    const data = await fetchFromApi<{ results: any[] }>(`/${type}/top_rated?language=en-US`);
+    return data.results || [];
 }
 
-export async function getPopularShows() {
+export const getTopRatedMovies = () => getTopRated('movie');
+export const getTopRatedShows = () => getTopRated('tv');
 
-    const { baseUrl, token } = getApiConfig();
-
-    const res = await fetch(`${baseUrl}/tv/popular?language=en-US`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
-    }
-
-    const data = await res.json()
-    return data.results || []
+// Details
+export async function getDetails(type: 'movie' | 'tv', id: number) {
+    return fetchFromApi(`/${type}/${id}?append_to_response=credits%2Creviews&language=en-US`);
 }
 
-export async function getTopRatedMovies() {
+export const getMovieDetails = (movieId: number) => getDetails('movie', movieId);
+export const getShowDetails = (showId: number) => getDetails('tv', showId);
 
-    const { baseUrl, token } = getApiConfig();
-
-    const res = await fetch(`${baseUrl}/movie/top_rated?language=en-US`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
-    }
-
-    const data = await res.json()
-    return data.results || []
-}
-
-export async function getTopRatedShows() {
-
-    const { baseUrl, token } = getApiConfig();
-
-    const res = await fetch(`${baseUrl}/tv/top_rated?language=en-US`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
-    }
-
-    const data = await res.json()
-    return data.results || []
-}
-
-export async function getMovieDetails(movieId: number) {
-    const { baseUrl, token } = getApiConfig();
-
-    const res = await fetch(`${baseUrl}/movie/${movieId}?append_to_response=credits%2Creviews&language=en-US`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
-    }
-
-    return res.json()
-}
-
-export async function getShowDetails(showId: number) {
-    const { baseUrl, token } = getApiConfig();
-
-    const res = await fetch(`${baseUrl}/tv/${showId}?append_to_response=credits%2Creviews&language=en-US`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
-    }
-
-    return res.json()
-}
+// Show episodes (specific to TV shows)
 export async function getShowEpisodes(showId: number, seasonId: number) {
-    const { baseUrl, token } = getApiConfig();
+    return fetchFromApi(`/tv/${showId}/season/${seasonId}`);
+}
 
-    const res = await fetch(`${baseUrl}/tv/${showId}/season/${seasonId}`, {
-        cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error(`API request failed with status ${res.status}`)
+// Search
+export async function searchMedia(type: 'movie' | 'tv', query: string, page: number = 1) {
+    if (!query || query.trim().length === 0) {
+        return {
+            results: [],
+            page: 1,
+            totalPages: 0,
+            totalResults: 0
+        };
     }
 
-    return res.json()
+    const data = await fetchFromApi<PaginatedResponse>(
+        `/search/${type}?query=${encodeURIComponent(query)}&page=${page}&language=en-US&include_adult=false`
+    );
+
+    return {
+        results: data.results || [],
+        page: data.page || 1,
+        totalPages: data.total_pages || 1,
+        totalResults: data.total_results || 0
+    };
 }
