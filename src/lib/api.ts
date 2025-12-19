@@ -130,7 +130,25 @@ export const getMovieDetails = (movieId: number): Promise<MovieDetails> => getDe
 export const getShowDetails = (showId: number): Promise<ShowDetails> => getDetails('tv', showId);
 
 // Show episodes (specific to TV shows)
-export async function getShowEpisodes(showId: number, seasonId: number) {
+interface SeasonEpisodes {
+    id: number;
+    name: string;
+    overview: string;
+    season_number: number;
+    episodes: Array<{
+        id: number;
+        name: string;
+        overview: string;
+        episode_number: number;
+        air_date?: string;
+        still_path?: string;
+        runtime?: number;
+        [key: string]: any;
+    }>;
+    [key: string]: any;
+}
+
+export async function getShowEpisodes(showId: number, seasonId: number): Promise<SeasonEpisodes> {
     return fetchFromApi(`/tv/${showId}/season/${seasonId}`);
 }
 
