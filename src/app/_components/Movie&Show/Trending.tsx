@@ -40,7 +40,6 @@ export default function Trending({ trending }: TrendingProps) {
 
     const movies = trending.slice(0, 10);
 
-    // Helper to determine the correct route based on media type
     const getMediaRoute = (item: TrendingItem) => {
         const mediaType = item.media_type === 'tv' ? 'tv' : 'movie';
         return `/Movies&Shows/${mediaType}/${item.id}`;
@@ -81,7 +80,6 @@ export default function Trending({ trending }: TrendingProps) {
                                                 {movie.overview}
                                             </p>
                                             <div className='space-x-2 mt-5 md:mt-8'>
-                                                {/* Play Button - Using Link wrapper for SEO */}
                                                 <Link href={detailsRoute}>
                                                     <Button 
                                                         variant='default' 

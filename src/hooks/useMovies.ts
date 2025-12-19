@@ -16,7 +16,6 @@ import {
 } from '@/lib/api'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
-// Trending content
 export function useTrending() {
     return useQuery({
         queryKey: ['trending'],

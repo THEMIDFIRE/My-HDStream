@@ -28,11 +28,9 @@ export function CarouselSection({ items, title, type }: CarouselSectionProps) {
         });
     }, [api]);
 
-    // Default path builder if none provided
     const getItemPath = (id: number) => {
-        // if (linkPathBuilder) return linkPathBuilder(id);
-        return type === 'movie' 
-            ? `/Movies&Shows/movie/${id}` 
+        return type === 'movie'
+            ? `/Movies&Shows/movie/${id}`
             : `/Movies&Shows/tv/${id}`;
     };
 
@@ -49,9 +47,8 @@ export function CarouselSection({ items, title, type }: CarouselSectionProps) {
                             <button
                                 key={index}
                                 onClick={() => api?.scrollTo(index)}
-                                className={`w-3 h-1 rounded transition-all ${
-                                    current === index ? 'bg-red-500 w-4' : 'bg-white'
-                                }`}
+                                className={`w-3 h-1 rounded transition-all ${current === index ? 'bg-red-500 w-4' : 'bg-white'
+                                    }`}
                                 aria-label={`Go to slide ${index + 1}`}
                             />
                         ))}

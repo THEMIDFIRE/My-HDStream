@@ -2,7 +2,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 
-// Type definitions
 interface FeatureLabels {
     title: string;
     price: string;
@@ -32,7 +31,6 @@ interface Plan {
     sharing: boolean | string;
 }
 
-// Data
 const featureLabels: FeatureLabels = {
     title: "Features",
     price: "Price",
@@ -116,7 +114,6 @@ export default function Features() {
     return (
         <section className="mb-20 md:mb-28 2xl:mb-32">
             <div className="container max-w-[91.67%] md:max-w-[80%] mx-auto space-y-10 md:space-y-[60px] 2xl:space-y-20">
-                {/* Header Section */}
                 <div className="space-y-2 md:space-y-2.5 2xl:space-y-3.5">
                     <h2 className="text-[28px] md:text-4xl 2xl:text-5xl font-bold">
                         Compare our plans and find the right one for you
@@ -126,8 +123,6 @@ export default function Features() {
                         Compare the features of each plan and choose the one that's right for you.
                     </p>
                 </div>
-
-                {/* Desktop Table - Hidden on Mobile */}
                 <Table className="hidden md:block border">
                     <TableHeader className="bg-black text-lg 2xl:text-xl font-semibold">
                         <TableRow>
@@ -152,8 +147,6 @@ export default function Features() {
                         ))}
                     </TableBody>
                 </Table>
-
-                {/* Mobile Tabs */}
                 <Tabs defaultValue="Standard" className="md:hidden gap-5">
                     <TabsList className="border bg-black w-full h-auto p-2">
                         {plans.map((plan) => (

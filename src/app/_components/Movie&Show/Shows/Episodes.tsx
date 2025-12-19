@@ -65,7 +65,6 @@ export default function Episodes({ seasons, showId }: EpisodesProps) {
             .filter(season => season.episodes.length > 0);
     }, [seasonsWithEpisodes]);
 
-    // Loading state
     if (isLoading) {
         return (
             <section className="mb-20 md:mb-28 2xl:mb-32">

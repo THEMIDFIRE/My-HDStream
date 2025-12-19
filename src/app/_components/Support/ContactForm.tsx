@@ -1,4 +1,4 @@
-"use client"  // Add this line at the very top
+"use client"
 
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";

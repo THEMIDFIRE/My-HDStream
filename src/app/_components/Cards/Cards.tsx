@@ -84,19 +84,18 @@ export function ShowsGenresCard({ genre }: { genre: GenreCardProps['genre'] }) {
     return <GenreCard genre={genre} type="tv" />;
 }
 
-// Unified interface for both movies and TV shows
 interface MediaCardProps {
     item: {
         id: number;
-        title?: string;        // For movies
-        name?: string;         // For TV shows
+        title?: string;
+        name?: string;
         poster_path?: string;
         vote_average?: number;
-        release_date?: string; // For movies
-        first_air_date?: string; // For TV shows
-        media_type?: 'movie' | 'tv'; // Optional: helps identify type
+        release_date?: string;
+        first_air_date?: string;
+        media_type?: 'movie' | 'tv';
     };
-    type?: 'movie' | 'tv'; // Explicitly pass type if media_type not available
+    type?: 'movie' | 'tv';
 }
 
 export function MediaCard({ item, type }: MediaCardProps) {
@@ -164,7 +163,6 @@ export function MediaCard({ item, type }: MediaCardProps) {
     );
 }
 
-// Convenience aliases for backward compatibility
 export function MovieCard({ movie }: { movie: MediaCardProps['item'] }) {
     return <MediaCard item={movie} type="movie" />;
 }
