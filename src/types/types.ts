@@ -32,7 +32,7 @@ export interface CarouselSectionProps {
 
 export interface PageProps {
     params: Promise<{ id: string }>;
-    searchParams?: Promise<{ page?: string }>;
+    searchParams: Promise<{ page?: string }>;
 }
 
 export interface ProductionCompany {
