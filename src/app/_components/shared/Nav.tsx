@@ -23,12 +23,12 @@ export default function Nav() {
     return (
         <>
             <NavigationMenu className="justify-between max-w-full z-50 sticky top-0 backdrop-blur-xs">
-                <div className="container max-w-11/12 md:max-w-4/5 mx-auto flex items-center py-6">
+                <div className="container max-w-11/12 md:max-w-4/5 mx-auto flex justify-between items-center py-6">
                     <Link href="/" className="flex flex-row items-center gap-1.5 font-semibold hover:bg-transparent">
                         <img src="/logo.svg" alt="My HDStream" className="size-1/4" />
                         <h2 className="text-lg">My HDStream</h2>
                     </Link>
-                    <NavigationMenuList className="grow border-4 rounded-md p-2.5 gap-7 bg-black max-md:hidden">
+                    <NavigationMenuList className="border-4 rounded-md p-2.5 gap-7 bg-black max-md:hidden">
                         {links.map((link) => (
                             <NavigationMenuItem key={link.href}>
                                 <NavigationMenuLink href={link.href} className={`text-gray-500 rounded-md text-sm xl:text-lg xl:px-8 xl:py-6 font-normal bg-transparent ${path === link.href ? "text-white bg-gray-200/60 dark:bg-gray-200/10 font-medium" : ""}`}>
