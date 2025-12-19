@@ -42,16 +42,16 @@ export function PriceCard({ title, description, price, currency, period }: { tit
 }
 
 export function GenreCard({ genre, type }: GenreCardProps) {
-    const { prefetchMoviesGenre, prefetchShowsGenre } = usePrefetchDetails();
+    const { prefetchByGenre } = usePrefetchDetails();
 
     const isMovie = type === 'movie';
     const basePath = isMovie ? '/Movies&Shows/movies/genre' : '/Movies&Shows/shows/genre';
 
     const handleMouseEnter = () => {
         if (isMovie) {
-            prefetchMoviesGenre(genre.id);
+            prefetchByGenre('movie',genre.id);
         } else {
-            prefetchShowsGenre(genre.id);
+            prefetchByGenre('tv',genre.id);
         }
     };
 

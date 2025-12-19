@@ -1,20 +1,7 @@
 'use client'
 
-import { 
-    getByGenre, 
-    getMovieDetails,
-    getShowDetails,
-    getMovieGenres, 
-    getPopularMovies, 
-    getPopularShows, 
-    getShowEpisodes, 
-    getShowsGenres, 
-    getTopRatedMovies, 
-    getTopRatedShows, 
-    getTrending, 
-    searchMedia 
-} from '@/lib/api'
-import type { Movie, TVShow, PaginatedResponse } from '@/types/types'
+import { getByGenre, getMovieDetails, getMovieGenres, getPopularMovies, getPopularShows, getShowDetails, getShowEpisodes, getShowsGenres, getTopRatedMovies, getTopRatedShows, getTrending, searchMedia } from '@/lib/api'
+import type { Movie, PaginatedResponse, TVShow } from '@/types/types'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 export function useTrending() {
@@ -33,18 +20,6 @@ export function useTopRated(type: 'movie' | 'tv') {
     })
 }
 
-export const useTopRatedMovies = () => useQuery<Movie[]>({
-    queryKey: ['movies', 'toprated'],
-    queryFn: getTopRatedMovies,
-    staleTime: 10 * 60 * 1000,
-});
-
-export const useTopRatedShows = () => useQuery<TVShow[]>({
-    queryKey: ['shows', 'toprated'],
-    queryFn: getTopRatedShows,
-    staleTime: 10 * 60 * 1000,
-});
-
 export function usePopular(type: 'movie' | 'tv') {
     return useQuery<Movie[] | TVShow[]>({
         queryKey: [type === 'movie' ? 'movies' : 'shows', 'popular'],
@@ -52,18 +27,6 @@ export function usePopular(type: 'movie' | 'tv') {
         staleTime: 10 * 60 * 1000,
     })
 }
-
-export const usePopularMovies = () => useQuery<Movie[]>({
-    queryKey: ['movies', 'popular'],
-    queryFn: getPopularMovies,
-    staleTime: 10 * 60 * 1000,
-});
-
-export const usePopularShows = () => useQuery<TVShow[]>({
-    queryKey: ['shows', 'popular'],
-    queryFn: getPopularShows,
-    staleTime: 10 * 60 * 1000,
-});
 
 export function useGenres(type: 'movie' | 'tv') {
     return useQuery({
@@ -187,7 +150,7 @@ export function usePrefetchDetails() {
         })
     }
 
-    return { prefetchMovie, prefetchShow, prefetchMoviesGenre, prefetchShowsGenre }
+    return { prefetchMovie, prefetchShow, prefetchByGenre }
 }
 
 export function useSearch(type: 'movie' | 'tv', query: string, page: number = 1) {
