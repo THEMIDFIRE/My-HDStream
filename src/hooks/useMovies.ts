@@ -14,6 +14,7 @@ import {
     getTrending, 
     searchMedia 
 } from '@/lib/api'
+import type { Movie, TVShow, PaginatedResponse } from '@/types/types'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 export function useTrending() {
@@ -25,26 +26,44 @@ export function useTrending() {
 }
 
 export function useTopRated(type: 'movie' | 'tv') {
-    return useQuery({
+    return useQuery<Movie[] | TVShow[]>({
         queryKey: [type === 'movie' ? 'movies' : 'shows', 'toprated'],
         queryFn: () => (type === 'movie' ? getTopRatedMovies() : getTopRatedShows()),
         staleTime: 10 * 60 * 1000,
     })
 }
 
-export const useTopRatedMovies = () => useTopRated('movie');
-export const useTopRatedShows = () => useTopRated('tv');
+export const useTopRatedMovies = () => useQuery<Movie[]>({
+    queryKey: ['movies', 'toprated'],
+    queryFn: getTopRatedMovies,
+    staleTime: 10 * 60 * 1000,
+});
+
+export const useTopRatedShows = () => useQuery<TVShow[]>({
+    queryKey: ['shows', 'toprated'],
+    queryFn: getTopRatedShows,
+    staleTime: 10 * 60 * 1000,
+});
 
 export function usePopular(type: 'movie' | 'tv') {
-    return useQuery({
+    return useQuery<Movie[] | TVShow[]>({
         queryKey: [type === 'movie' ? 'movies' : 'shows', 'popular'],
         queryFn: () => (type === 'movie' ? getPopularMovies() : getPopularShows()),
         staleTime: 10 * 60 * 1000,
     })
 }
 
-export const usePopularMovies = () => usePopular('movie');
-export const usePopularShows = () => usePopular('tv');
+export const usePopularMovies = () => useQuery<Movie[]>({
+    queryKey: ['movies', 'popular'],
+    queryFn: getPopularMovies,
+    staleTime: 10 * 60 * 1000,
+});
+
+export const usePopularShows = () => useQuery<TVShow[]>({
+    queryKey: ['shows', 'popular'],
+    queryFn: getPopularShows,
+    staleTime: 10 * 60 * 1000,
+});
 
 export function useGenres(type: 'movie' | 'tv') {
     return useQuery({
@@ -58,16 +77,37 @@ export const useMovieGenres = () => useGenres('movie');
 export const useShowsGenres = () => useGenres('tv');
 
 export function useByGenre(type: 'movie' | 'tv', genreId: number, page: number) {
-    return useQuery({
+    return useQuery<PaginatedResponse<Movie | TVShow>>({
         queryKey: [type === 'movie' ? 'movies' : 'shows', 'genre', genreId, page],
-        queryFn: () => getByGenre(type, genreId, page),
+        queryFn: () => {
+            if (type === 'movie') {
+                return getByGenre('movie', genreId, page);
+            } else {
+                return getByGenre('tv', genreId, page);
+            }
+        },
         enabled: !!genreId && page > 0,
         staleTime: 10 * 60 * 1000,
     })
 }
 
-export const useMoviesByGenre = (genreId: number, page: number) => useByGenre('movie', genreId, page);
-export const useShowsByGenre = (genreId: number, page: number) => useByGenre('tv', genreId, page);
+export const useMoviesByGenre = (genreId: number, page: number) => {
+    return useQuery<PaginatedResponse<Movie>>({
+        queryKey: ['movies', 'genre', genreId, page],
+        queryFn: () => getByGenre('movie', genreId, page),
+        enabled: !!genreId && page > 0,
+        staleTime: 10 * 60 * 1000,
+    })
+};
+
+export const useShowsByGenre = (genreId: number, page: number) => {
+    return useQuery<PaginatedResponse<TVShow>>({
+        queryKey: ['shows', 'genre', genreId, page],
+        queryFn: () => getByGenre('tv', genreId, page),
+        enabled: !!genreId && page > 0,
+        staleTime: 10 * 60 * 1000,
+    })
+};
 
 export function useMovieDetails(movieId: number) {
     return useQuery({
@@ -100,15 +140,36 @@ export function usePrefetchDetails() {
     const queryClient = useQueryClient()
 
     const prefetchByGenre = (type: 'movie' | 'tv', genreId: number) => {
-        queryClient.prefetchQuery({
-            queryKey: [type === 'movie' ? 'movies' : 'shows', 'genre', genreId],
-            queryFn: () => getByGenre(type, genreId, 1),
-            staleTime: 10 * 60 * 1000,
-        })
+        if (type === 'movie') {
+            queryClient.prefetchQuery({
+                queryKey: ['movies', 'genre', genreId],
+                queryFn: () => getByGenre('movie', genreId, 1),
+                staleTime: 10 * 60 * 1000,
+            })
+        } else {
+            queryClient.prefetchQuery({
+                queryKey: ['shows', 'genre', genreId],
+                queryFn: () => getByGenre('tv', genreId, 1),
+                staleTime: 10 * 60 * 1000,
+            })
+        }
     }
 
-    const prefetchMoviesGenre = (genreId: number) => prefetchByGenre('movie', genreId);
-    const prefetchShowsGenre = (genreId: number) => prefetchByGenre('tv', genreId);
+    const prefetchMoviesGenre = (genreId: number) => {
+        queryClient.prefetchQuery({
+            queryKey: ['movies', 'genre', genreId],
+            queryFn: () => getByGenre('movie', genreId, 1),
+            staleTime: 10 * 60 * 1000,
+        })
+    };
+
+    const prefetchShowsGenre = (genreId: number) => {
+        queryClient.prefetchQuery({
+            queryKey: ['shows', 'genre', genreId],
+            queryFn: () => getByGenre('tv', genreId, 1),
+            staleTime: 10 * 60 * 1000,
+        })
+    };
 
     const prefetchMovie = (movieId: number) => {
         queryClient.prefetchQuery({
@@ -130,9 +191,15 @@ export function usePrefetchDetails() {
 }
 
 export function useSearch(type: 'movie' | 'tv', query: string, page: number = 1) {
-    return useQuery({
+    return useQuery<PaginatedResponse<Movie | TVShow>>({
         queryKey: ['search', type, query, page],
-        queryFn: () => searchMedia(type, query, page),
+        queryFn: () => {
+            if (type === 'movie') {
+                return searchMedia('movie', query, page);
+            } else {
+                return searchMedia('tv', query, page);
+            }
+        },
         enabled: !!query && query.trim().length > 0,
         staleTime: 5 * 60 * 1000,
     })
