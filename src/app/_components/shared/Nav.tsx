@@ -73,7 +73,7 @@ export default function Nav() {
                             </NavigationMenuItem>
                         ))}
                     </NavigationMenuList>
-                    <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+                    <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen} repositionInputs={false}>
                         <DrawerTrigger className="rounded-md p-2 border-2 hover:bg-gray-900">
                             <MagnifyingGlassIcon className="size-6 dark:text-white" />
                         </DrawerTrigger>
