@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { VideoPlayerProps } from "@/types/types";
-import { useSearchParams } from "next/navigation";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
@@ -9,6 +10,7 @@ export default function VideoPlayer({ type, id, onBack }: VideoPlayerProps) {
     const [episodeNum, setEpisodeNum] = useState(1);
 
     const params = useSearchParams();
+    const router = useRouter();
 
     useEffect(() => {
         if (params.get('season') && params.get('episode')) {
@@ -34,6 +36,18 @@ export default function VideoPlayer({ type, id, onBack }: VideoPlayerProps) {
         );
     }
 
+    const prevEpisode = () => {
+        if (episodeNum > 1) {
+            const newEpisode = episodeNum - 1;
+            router.push(`${window.location.pathname}?watch=true&season=${seasonNum}&episode=${newEpisode}`);
+        }
+    }
+
+    const nextEpisode = () => {
+        const newEpisode = episodeNum + 1;
+        router.push(`${window.location.pathname}?watch=true&season=${seasonNum}&episode=${newEpisode}`);
+    }
+
     return (
         <section className="mb-20 md:mb-28 2xl:mb-32">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto space-y-4">
@@ -47,7 +61,25 @@ export default function VideoPlayer({ type, id, onBack }: VideoPlayerProps) {
                         title={`${type} player`}
                     ></iframe>
                 </div>
-                {type === 'tv' ? <p className="text-center *:text-red-500">Season <span className="font-bold">{seasonNum}</span> Episode <span className="font-bold">{episodeNum}</span></p> : ''}
+                {type === 'tv' ?
+                    <>
+                        <div className="flex justify-around items-center max-md:hidden">
+                            <Button onClick={prevEpisode} variant={"outline"}>Prev Episode</Button>
+                            <p className="text-center *:text-red-500">Season <span className="font-bold">{seasonNum}</span> Episode <span className="font-bold">{episodeNum}</span></p>
+                            <Button onClick={nextEpisode} variant={"outline"}>Next Episode</Button>
+                        </div>
+                        <div className="flex justify-around items-center md:hidden">
+                            <Button onClick={prevEpisode} variant={"outline"}>
+                                <ArrowLeftIcon />
+                            </Button>
+                            <p className="text-center *:text-red-500">S <span className="font-bold">{seasonNum}</span> E <span className="font-bold">{episodeNum}</span></p>
+                            <Button onClick={nextEpisode} variant={"outline"}>
+                                <ArrowRightIcon />
+                            </Button>
+                        </div>
+                    </>
+                    : ''
+                }
             </div>
         </section>
     )

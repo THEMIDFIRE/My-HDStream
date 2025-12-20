@@ -46,6 +46,7 @@ export default function Episodes({ seasons, showId }: EpisodesProps) {
 
     const airedEpisodes = useMemo(() => {
         if (!seasonsWithEpisodes) return [];
+        console.log('seasonsWithEpisodes', seasonsWithEpisodes)
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);

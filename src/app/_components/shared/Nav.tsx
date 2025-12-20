@@ -77,7 +77,7 @@ export default function Nav() {
                         <DrawerTrigger className="rounded-md p-2 border-2 hover:bg-gray-900">
                             <MagnifyingGlassIcon className="size-6 dark:text-white" />
                         </DrawerTrigger>
-                        <DrawerContent>
+                        <DrawerContent className="data-[vaul-drawer-direction=bottom]:max-h-[90vh]">
                             <DrawerHeader className="gap-y-3">
                                 <DrawerClose className="w-fit self-end border-[3px] p-1.5 rounded-md">
                                     <X className="size-6" />
