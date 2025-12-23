@@ -90,8 +90,8 @@ export default function VideoPlayer({ type, details, onBack }: VideoPlayerProps)
                 {type === 'tv' &&
                     <>
                         <div className="flex gap-3 justify-center">
-                            <Button onClick={() => setServer('vidsrc')} variant={`${server !== 'vidsrc' ? 'secondary' : 'destructive'}`}>Vidsrc</Button>
-                            <Button onClick={() => setServer('vidfast')} variant={`${server !== 'vidfast' ? 'secondary' : 'destructive'}`}>Vidfast</Button>
+                            <Button onClick={() => setServer('vidsrc')} variant={`${server === 'vidsrc' ? 'destructive' : 'secondary'}`}>Vidsrc</Button>
+                            <Button onClick={() => setServer('vidfast')} variant={`${server === 'vidfast' ? 'destructive' : 'secondary'}`}>Vidfast</Button>
                         </div>
                         <div className="flex justify-between items-center max-md:hidden">
                             <Button onClick={prevSeason} variant={"secondary"} className={`${seasonNum !== 1 ? '' : 'invisible'}`}>Prev Season</Button>

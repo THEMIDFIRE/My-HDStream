@@ -34,6 +34,34 @@ export default function Trending({ trending }: TrendingProps) {
         return `/Movies&Shows/${mediaType}/${item.id}`;
     };
 
+    const getWatchHistory = (itemId: number) => {
+        try {
+            const watchList = localStorage.getItem('watchList');
+            if (!watchList) return null;
+
+            const watchHistory = JSON.parse(watchList);
+            return watchHistory.find((item: any) => item.id === itemId);
+        } catch (error) {
+            console.error('Error reading watch history:', error);
+            return null;
+        }
+    };
+
+    const playMedia = (item: TrendingItem) => {
+        const mediaType = item.media_type === 'tv' ? 'tv' : 'movie';
+
+        if (mediaType === 'tv') {
+            const history = getWatchHistory(item.id);
+
+            const seasonNum = history?.season || 1;
+            const episodeNum = history?.episode || 1;
+
+            return `/Movies&Shows/${mediaType}/${item.id}?watch=true&season=${seasonNum}&episode=${episodeNum}`;
+        }
+
+        return `/Movies&Shows/${mediaType}/${item.id}?watch=true`;
+    };
+
     return (
         <section className="mb-20 md:mb-28 2xl:mb-32">
             <div className="container max-w-11/12 md:max-w-4/5 mx-auto">
@@ -46,6 +74,7 @@ export default function Trending({ trending }: TrendingProps) {
                         {movies.map((movie, index) => {
                             const title = movie.title || movie.name;
                             const detailsRoute = getMediaRoute(movie);
+                            const playRoute = playMedia(movie);
 
                             return (
                                 <CarouselItem key={movie.id} className='relative'>
@@ -69,7 +98,7 @@ export default function Trending({ trending }: TrendingProps) {
                                                 {movie.overview}
                                             </p>
                                             <div className='space-x-2 mt-5 md:mt-8'>
-                                                <Link href={detailsRoute}>
+                                                <Link href={playRoute}>
                                                     <Button
                                                         variant='default'
                                                         className='bg-red-500 text-white hover:bg-red-700 has-[>svg]:px-3.5 has-[>svg]:py-5'
@@ -114,8 +143,8 @@ export default function Trending({ trending }: TrendingProps) {
                                     key={idx}
                                     onClick={() => api?.scrollTo(idx)}
                                     className={`h-1 transition-all duration-300 ${idx === current
-                                            ? 'w-8 bg-red-500 hover:bg-red-500'
-                                            : 'w-6 bg-gray-600 hover:bg-red-500/75'
+                                        ? 'w-8 bg-red-500 hover:bg-red-500'
+                                        : 'w-6 bg-gray-600 hover:bg-red-500/75'
                                         }`}
                                     aria-label={`Go to slide ${idx + 1}`}
                                 />

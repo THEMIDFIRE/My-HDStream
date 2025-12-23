@@ -47,9 +47,15 @@ export default function Hero({ details, type }: MediaDetailsProps) {
 
             saveWatchHistory(season, episode);
             setIsWatching(true);
-
         }
     }, [params, type, details.id]);
+
+    useEffect(() => {
+        const watch = params.get('watch') === 'true';
+        if (watch) {
+            setIsWatching(true);
+        }
+    }, []);
     
 
     const saveWatchHistory = (season: string, episode: string) => {
