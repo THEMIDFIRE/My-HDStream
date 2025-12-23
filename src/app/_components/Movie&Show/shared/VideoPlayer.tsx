@@ -5,7 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
-export default function VideoPlayer({ type, id, onBack }: VideoPlayerProps) {
+export default function VideoPlayer({ type, details, onBack }: VideoPlayerProps) {
+    const [server, setServer] = useState('vidsrc');
     const [seasonNum, setSeasonNum] = useState(1);
     const [episodeNum, setEpisodeNum] = useState(1);
 
@@ -21,12 +22,24 @@ export default function VideoPlayer({ type, id, onBack }: VideoPlayerProps) {
 
     let videoUrl = '';
     if (type === 'movie') {
-        videoUrl = `https://vidsrc-embed.ru/embed/movie/${id}`;
+        if (server === 'vidfast') {
+            videoUrl = `https://vidfast.pro/movie/${details.id}`;
+        } else {
+            videoUrl = `https://vidsrc-embed.ru/embed/movie/${details.id}`;
+        }
     } else if (type === 'tv') {
         if (seasonNum && episodeNum) {
-            videoUrl = `https://vidsrc-embed.ru/embed/tv/${id}/${seasonNum}-${episodeNum}`;
+            if (server === 'vidfast') {
+                videoUrl = `https://vidfast.pro/tv/${details.id}/${seasonNum}/${episodeNum}`;
+            } else {
+                videoUrl = `https://vidsrc-embed.ru/embed/tv/${details.id}/${seasonNum}-${episodeNum}`;
+            }
         } else {
-            videoUrl = `https://vidsrc-embed.ru/embed/tv/${id}/1-1`;
+            if (server === 'vidfast') {
+                videoUrl = `https://vidfast.pro/tv/${details.id}/1/1`;
+            } else {
+                videoUrl = `https://vidsrc-embed.ru/embed/tv/${details.id}/1-1`;
+            }
         }
     } else {
         return (
@@ -35,7 +48,20 @@ export default function VideoPlayer({ type, id, onBack }: VideoPlayerProps) {
             </div>
         );
     }
+    // Season navigation
+    const prevSeason = () => {
+        if (seasonNum > 1) {
+            const newSeason = seasonNum - 1;
+            router.push(`${window.location.pathname}?watch=true&season=${newSeason}&episode=${episodeNum}`);
+        }
+    }
 
+    const nextSeason = () => {
+        const newSeason = seasonNum + 1;
+        router.push(`${window.location.pathname}?watch=true&season=${newSeason}&episode=${episodeNum}`);
+    }
+
+    // Episode navigation
     const prevEpisode = () => {
         if (episodeNum > 1) {
             const newEpisode = episodeNum - 1;
@@ -61,24 +87,30 @@ export default function VideoPlayer({ type, id, onBack }: VideoPlayerProps) {
                         title={`${type} player`}
                     ></iframe>
                 </div>
-                {type === 'tv' ?
+                {type === 'tv' &&
                     <>
-                        <div className="flex justify-around items-center max-md:hidden">
-                            <Button onClick={prevEpisode} variant={"outline"}>Prev Episode</Button>
-                            <p className="text-center *:text-red-500">Season <span className="font-bold">{seasonNum}</span> Episode <span className="font-bold">{episodeNum}</span></p>
-                            <Button onClick={nextEpisode} variant={"outline"}>Next Episode</Button>
+                        <div className="flex gap-3 justify-center">
+                            <Button onClick={() => setServer('vidsrc')} variant={`${server !== 'vidsrc' ? 'secondary' : 'destructive'}`}>Vidsrc</Button>
+                            <Button onClick={() => setServer('vidfast')} variant={`${server !== 'vidfast' ? 'secondary' : 'destructive'}`}>Vidfast</Button>
                         </div>
-                        <div className="flex justify-around items-center md:hidden">
-                            <Button onClick={prevEpisode} variant={"outline"}>
+                        <div className="flex justify-between items-center max-md:hidden">
+                            <Button onClick={prevSeason} variant={"secondary"} className={`${seasonNum !== 1 ? '' : 'invisible'}`}>Prev Season</Button>
+                            <Button onClick={prevEpisode} variant={"outline"} className={`${episodeNum !== 1 ? '' : 'invisible'} `}>Prev Episode</Button>
+                            <p className="*:text-red-500 justify-self-end">Season <span className="font-bold">{seasonNum}</span> Episode <span className="font-bold">{episodeNum}</span></p>
+                            <Button onClick={nextEpisode} variant={"outline"} className={`${Number(episodeNum) < details.seasons[seasonNum - 1]?.episode_count ? '' : 'invisible'}`}>Next Episode</Button>
+                            <Button onClick={nextSeason} variant={"secondary"} className={`${Number(seasonNum) < details.seasons.length ? '' : 'invisible'}`}>Next Season</Button>
+                        </div>
+                        {/* Mobile */}
+                        <div className="flex  items-center gap-20 max-w-4/5 mx-auto md:hidden">
+                            <Button onClick={prevEpisode} variant={"outline"} className={`${episodeNum !== 1 ? '' : 'invisible'} `}>
                                 <ArrowLeftIcon />
                             </Button>
-                            <p className="text-center *:text-red-500">S <span className="font-bold">{seasonNum}</span> E <span className="font-bold">{episodeNum}</span></p>
-                            <Button onClick={nextEpisode} variant={"outline"}>
+                            <p className="text-center *:text-red-500 place-self-center">S <span className="font-bold">{seasonNum}</span> E <span className="font-bold">{episodeNum}</span></p>
+                            <Button onClick={nextEpisode} variant={"outline"} className={`${Number(episodeNum) < details.seasons[seasonNum - 1]?.episode_count ? '' : 'invisible'}`}>
                                 <ArrowRightIcon />
                             </Button>
                         </div>
                     </>
-                    : ''
                 }
             </div>
         </section>

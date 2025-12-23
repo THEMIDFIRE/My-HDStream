@@ -46,18 +46,11 @@ export default function Hero({ details, type }: MediaDetailsProps) {
             setCurrentEpisode(episode);
 
             saveWatchHistory(season, episode);
+            setIsWatching(true);
+
         }
     }, [params, type, details.id]);
     
-    useEffect(() => {
-        const season = params.get('season');
-        const episode = params.get('episode');
-        const watching = params.get('watch') === 'true';
-
-        if (watching && season && episode && type === 'tv') {
-            setIsWatching(true);
-        }
-    }, [params]);
 
     const saveWatchHistory = (season: string, episode: string) => {
         const watchList = localStorage.getItem('watchList') || '[]';
@@ -106,7 +99,7 @@ export default function Hero({ details, type }: MediaDetailsProps) {
     return (
         <>
             {isWatching ? (
-                <VideoPlayer type={type} id={details.id} onBack={() => { router.push(window.location.pathname); setIsWatching(false) }} />
+                <VideoPlayer type={type} details={details} onBack={() => { router.push(window.location.pathname); setIsWatching(false) }} />
             ) : (
                 <section className='mb-20 md:mb-28 2xl:mb-32'>
 

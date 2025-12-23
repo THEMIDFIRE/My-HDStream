@@ -13,6 +13,7 @@ import { useMemo } from 'react';
 
 
 export default function Episodes({ seasons, showId }: EpisodesProps) {
+    
     const params = useSearchParams();
 
     const currentSeason = params.get('season');
@@ -46,7 +47,6 @@ export default function Episodes({ seasons, showId }: EpisodesProps) {
 
     const airedEpisodes = useMemo(() => {
         if (!seasonsWithEpisodes) return [];
-        console.log('seasonsWithEpisodes', seasonsWithEpisodes)
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -98,7 +98,7 @@ export default function Episodes({ seasons, showId }: EpisodesProps) {
     const isEpisodeActive = (seasonNum: number, episodeNum: number) => {
         return currentSeason === String(seasonNum) && currentEpisode === String(episodeNum);
     };
-
+    
 
     return (
         <section className="mb-20 md:mb-28 2xl:mb-32">

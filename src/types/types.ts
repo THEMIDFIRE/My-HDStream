@@ -323,7 +323,7 @@ export type MediaItem = Movie | TVShow;
 export type MediaDetails = MovieDetails | ShowDetails;
 export type MediaType = 'movie' | 'tv';
 
-export interface VideoPlayerProps {
+export interface VideoPlayerProps extends MediaDetailsProps {
     type: 'movie' | 'tv';
     id?: number;
     onBack: () => void;
