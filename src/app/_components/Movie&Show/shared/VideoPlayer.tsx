@@ -30,7 +30,7 @@ export default function VideoPlayer({ type, details, onBack }: VideoPlayerProps)
     } else if (type === 'tv') {
         if (seasonNum && episodeNum) {
             if (server === 'vidfast') {
-                videoUrl = `https://vidfast.pro/tv/${details.id}/${seasonNum}/${episodeNum}`;
+                videoUrl = `https://vidfast.pro/tv/${details.id}/${seasonNum}/${episodeNum}?sub=en`;
             } else {
                 videoUrl = `https://vidsrc-embed.ru/embed/tv/${details.id}/${seasonNum}-${episodeNum}`;
             }
