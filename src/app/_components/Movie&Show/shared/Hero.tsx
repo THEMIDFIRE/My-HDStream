@@ -2,7 +2,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { MediaDetailsProps, WatchHistoryItem } from '@/types/types';
+import { MediaDetailsProps, WatchItem } from '@/types/types';
 import { ArrowLeftIcon, CalendarIcon, ClockIcon, StarIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
@@ -13,7 +13,7 @@ import VideoPlayer from './VideoPlayer';
 
 export default function Hero({ details, type }: MediaDetailsProps) {
     const [isWatching, setIsWatching] = useState(false);
-    const [showId] = useState(details.id);
+    const [mediaId] = useState(details.id);
     const [currentSeason, setCurrentSeason] = useState('1');
     const [currentEpisode, setCurrentEpisode] = useState('1');
 
@@ -56,14 +56,13 @@ export default function Hero({ details, type }: MediaDetailsProps) {
             setIsWatching(true);
         }
     }, []);
-    
 
     const saveWatchHistory = (season: string, episode: string) => {
         const watchList = localStorage.getItem('watchList') || '[]';
         const watchHistory = JSON.parse(watchList);
-        const existingHistoryIndex = watchHistory.findIndex((item: any) => item.id === showId);
+        const existingHistoryIndex = watchHistory.findIndex((item: any) => item.id === mediaId);
 
-        const updateItem: WatchHistoryItem = {
+        const updateItem: WatchItem = {
             id: details.id,
             season,
             episode
@@ -76,6 +75,26 @@ export default function Hero({ details, type }: MediaDetailsProps) {
         }
 
         localStorage.setItem('watchList', JSON.stringify(watchHistory));
+    }
+
+    const watchLater = localStorage.getItem('watchLater') || '[]';
+    const watchLaterList = JSON.parse(watchLater);
+    const existingItemIndex = watchLaterList.findIndex((item: any) => item.id === mediaId);
+
+    const saveWatchLater = () => {
+        const newItem: WatchItem = {
+            id: details.id,
+            type,
+            imgPath: details.poster_path,
+            name: mediaTitle,
+            date: new Date().toISOString()
+        };
+        if (existingItemIndex !== -1) {
+            return;
+        } else {
+            watchLaterList.push(newItem);
+        }
+        localStorage.setItem('watchLater', JSON.stringify(watchLaterList));
     }
 
     const handleWatch = () => {
@@ -213,6 +232,7 @@ export default function Hero({ details, type }: MediaDetailsProps) {
                                     )}
                                     <div className="flex gap-3">
                                         <Button
+                                            variant="default"
                                             onClick={handleWatch}
                                             className="bg-red-500 hover:bg-red-600 text-white gap-2"
                                             {...details.status === "Planned" && { disabled: true }}
@@ -222,8 +242,12 @@ export default function Hero({ details, type }: MediaDetailsProps) {
                                                 ? 'Continue Watching'
                                                 : 'Play Now'}
                                         </Button>
-                                        <Button variant="outline">
-                                            Add to Watchlist
+                                        <Button
+                                            variant="outline"
+                                            onClick={saveWatchLater}
+                                            disabled={existingItemIndex !== -1}
+                                        >
+                                            {existingItemIndex !== -1 ? 'Added' : 'Watch Later'}
                                         </Button>
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-gray-800">

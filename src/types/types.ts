@@ -329,8 +329,12 @@ export interface VideoPlayerProps extends MediaDetailsProps {
     onBack: () => void;
 }
 
-export interface WatchHistoryItem {
+export interface WatchItem {
     id: number;
-    season: string;
-    episode: string;
+    season?: string;
+    episode?: string;
+    type?: 'movie' | 'tv';
+    imgPath?: string;
+    name?: string;
+    date?: string;
 }
