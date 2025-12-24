@@ -334,7 +334,7 @@ export interface WatchItem {
     season?: string;
     episode?: string;
     type?: 'movie' | 'tv';
-    imgPath?: string;
+    poster_path?: string;
     name?: string;
-    date?: string;
+    release_date?: string;
 }

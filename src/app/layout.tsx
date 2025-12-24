@@ -1,9 +1,7 @@
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
-import CTA from "./_components/shared/CTA";
-import Footer from "./_components/shared/Footer";
-import Nav from "./_components/shared/Nav";
+import Nav from "./_components/shared/Navigation/Nav";
 import "./globals.css";
 import { QueryProvider } from "./providers/provider";
 

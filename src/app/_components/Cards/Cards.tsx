@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { usePrefetchDetails } from '@/hooks/useMovies';
 import { GenreCardProps, MediaCardProps } from "@/types/types";
 import { StarIcon } from "@heroicons/react/24/solid";
+import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -49,9 +50,9 @@ export function GenreCard({ genre, type }: GenreCardProps) {
 
     const handleMouseEnter = () => {
         if (isMovie) {
-            prefetchByGenre('movie',genre.id);
+            prefetchByGenre('movie', genre.id);
         } else {
-            prefetchByGenre('tv',genre.id);
+            prefetchByGenre('tv', genre.id);
         }
     };
 
@@ -78,7 +79,7 @@ export function ShowsGenresCard({ genre }: { genre: GenreCardProps['genre'] }) {
 }
 
 
-export function MediaCard({ item, type }: MediaCardProps) {
+export function MediaCard({ item, type, showRemoveButton, onRemove }: MediaCardProps & { showRemoveButton?: boolean, onRemove?: (id: number) => void }) {
     const { prefetchMovie, prefetchShow } = usePrefetchDetails();
 
     const isMovie = type === 'movie' || item.media_type === 'movie' || !!item.title;
@@ -97,11 +98,29 @@ export function MediaCard({ item, type }: MediaCardProps) {
         }
     };
 
+    const handleRemove = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (onRemove) {
+            onRemove(item.id);
+        }
+    };
+
     return (
         <Card
-            className="overflow-hidden group cursor-pointer hover:border-red-500 transition-all py-0"
+            className="overflow-hidden group cursor-pointer hover:border-red-500 transition-all py-0 relative"
             onMouseEnter={handleMouseEnter}
         >
+            {showRemoveButton && (
+                <Button variant={"destructive"} size={"icon"}
+                    onClick={handleRemove}
+                    className="absolute top-2 left-2 z-10 size-6 text-white rounded-full transition-colors shadow-lg dark:hover:bg-destructive"
+                    aria-label="Remove from watch later"
+                >
+                    <X className="size-4" />
+                </Button>
+            )}
+
             <CardContent className="p-0">
                 <div className="relative aspect-2/3 overflow-hidden">
                     {item.poster_path ? (

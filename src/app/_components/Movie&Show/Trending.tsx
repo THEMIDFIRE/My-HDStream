@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { TrendingItem, TrendingProps } from '@/types/types';
 import { ArrowLeftIcon, ArrowRightIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
@@ -109,13 +110,20 @@ export default function Trending({ trending }: TrendingProps) {
                                                 </Link>
 
                                                 <Link href={detailsRoute}>
-                                                    <Button
-                                                        variant='default'
-                                                        size='icon'
-                                                        className='bg-black text-white hover:bg-gray-800 has-[>svg]:px-3.5 has-[>svg]:py-5'
-                                                    >
-                                                        <InformationCircleIcon />
-                                                    </Button>
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <Button
+                                                                variant='default'
+                                                                size='icon'
+                                                                className='bg-black text-white hover:bg-gray-800 has-[>svg]:px-3.5 has-[>svg]:py-5'
+                                                            >
+                                                                <InformationCircleIcon />
+                                                            </Button>
+                                                        </TooltipTrigger>
+                                                        <TooltipContent>
+                                                            More Info
+                                                        </TooltipContent>
+                                                    </Tooltip>
                                                 </Link>
                                             </div>
                                         </div>

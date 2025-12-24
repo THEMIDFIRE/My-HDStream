@@ -16,11 +16,24 @@ export default function Hero({ details, type }: MediaDetailsProps) {
     const [mediaId] = useState(details.id);
     const [currentSeason, setCurrentSeason] = useState('1');
     const [currentEpisode, setCurrentEpisode] = useState('1');
+    const [isInWatchLater, setIsInWatchLater] = useState(false);
 
     const router = useRouter();
     const params = useSearchParams();
 
     const mediaTitle = type === 'movie' ? details.title : details.name;
+
+    // Check if item is already in watch later on mount and when it changes
+    useEffect(() => {
+        checkWatchLaterStatus();
+    }, [mediaId]);
+
+    const checkWatchLaterStatus = () => {
+        const watchLater = localStorage.getItem('watchLater') || '[]';
+        const watchLaterList = JSON.parse(watchLater);
+        const exists = watchLaterList.some((item: any) => item.id === mediaId);
+        setIsInWatchLater(exists);
+    };
 
     useEffect(() => {
         if (type === 'tv') {
@@ -77,24 +90,29 @@ export default function Hero({ details, type }: MediaDetailsProps) {
         localStorage.setItem('watchList', JSON.stringify(watchHistory));
     }
 
-    const watchLater = localStorage.getItem('watchLater') || '[]';
-    const watchLaterList = JSON.parse(watchLater);
-    const existingItemIndex = watchLaterList.findIndex((item: any) => item.id === mediaId);
-
     const saveWatchLater = () => {
+        const watchLater = localStorage.getItem('watchLater') || '[]';
+        const watchLaterList = JSON.parse(watchLater);
+        const existingItemIndex = watchLaterList.findIndex((item: any) => item.id === mediaId);
+
+        if (existingItemIndex !== -1) {
+            return;
+        }
+
         const newItem: WatchItem = {
             id: details.id,
             type,
-            imgPath: details.poster_path,
+            poster_path: details.poster_path,
             name: mediaTitle,
-            date: new Date().toISOString()
+            release_date: new Date().toISOString()
         };
-        if (existingItemIndex !== -1) {
-            return;
-        } else {
-            watchLaterList.push(newItem);
-        }
+
+        watchLaterList.push(newItem);
         localStorage.setItem('watchLater', JSON.stringify(watchLaterList));
+        
+        setIsInWatchLater(true);
+        
+        window.dispatchEvent(new Event('watchLaterUpdated'));
     }
 
     const handleWatch = () => {
@@ -245,9 +263,9 @@ export default function Hero({ details, type }: MediaDetailsProps) {
                                         <Button
                                             variant="outline"
                                             onClick={saveWatchLater}
-                                            disabled={existingItemIndex !== -1}
+                                            disabled={isInWatchLater}
                                         >
-                                            {existingItemIndex !== -1 ? 'Added' : 'Watch Later'}
+                                            {isInWatchLater ? 'Added' : 'Watch Later'}
                                         </Button>
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-gray-800">
