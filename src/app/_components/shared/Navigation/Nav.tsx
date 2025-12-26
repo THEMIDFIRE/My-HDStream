@@ -41,7 +41,7 @@ export default function Nav() {
                     </NavigationMenuList>
                     <div className="space-x-2.5">
                         <Tooltip>
-                            <TooltipTrigger>
+                            <TooltipTrigger asChild>
                                 <WatchLater />
                             </TooltipTrigger>
                             <TooltipContent>
@@ -49,7 +49,7 @@ export default function Nav() {
                             </TooltipContent>
                         </Tooltip>
                         <Tooltip>
-                            <TooltipTrigger>
+                            <TooltipTrigger asChild>
                                 <Search />
                             </TooltipTrigger>
                             <TooltipContent>
