@@ -83,9 +83,9 @@ export async function getByGenre(
     };
 }
 
-export const getMoviesByGenre = (genreId: number, page?: number): Promise<PaginatedResponse<Movie>> => 
+export const getMoviesByGenre = (genreId: number, page?: number): Promise<PaginatedResponse<Movie>> =>
     getByGenre('movie', genreId, page);
-export const getShowsByGenre = (genreId: number, page?: number): Promise<PaginatedResponse<TVShow>> => 
+export const getShowsByGenre = (genreId: number, page?: number): Promise<PaginatedResponse<TVShow>> =>
     getByGenre('tv', genreId, page);
 
 // Popular content
