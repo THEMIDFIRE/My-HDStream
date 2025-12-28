@@ -145,9 +145,9 @@ _This project is for portfolio purposes. Movie/TV show data provided by TMDB._
 ## 👨‍💻 Author
 **Mohamed Magdy**
 
-**Portfolio:** [Your Portfolio Link]
+**Portfolio:** `https://themidfire.github.io/My-Portfolio/`
 
-**LinkedIn:** [Your LinkedIn Profile]
+**LinkedIn:** `https://www.linkedin.com/in/themidfire/`
 
 **Email:** chasticoder@gmail.com
 
