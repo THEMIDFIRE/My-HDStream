@@ -50,6 +50,7 @@ A full-featured streaming platform built with Next.js, featuring real movie/TV s
 - **GitHub Actions** - Automated workflows
 
 ## 📁 Project Structure
+```bash
 my-stream/
 ├── app/                    # Next.js App Router Structure
 │   ├── (pages)/           # Main application pages
@@ -72,7 +73,7 @@ my-stream/
 │   ├── api.ts           # TMDB API integration layer
 │   └── utils.ts         # Helper functions
 └── types/               # TypeScript type definitions
-
+```
 ## 🚀 Getting Started
 
 ### Prerequisites
